@@ -1,0 +1,11 @@
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.AssemblyReference.cache
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form1.resources
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form2.resources
