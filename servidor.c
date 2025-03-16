@@ -1,163 +1,156 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 #include <string.h>
 #include <mysql/mysql.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
 
-#define PUERTO 8080
-#define MAX_CLIENTES 5
-#define BUFFER_SIZE 1024
-
-// Funcion para conectar con MySQL
-MYSQL* conectar_bd() {
-	MYSQL *conn = mysql_init(NULL);
-	if (conn == NULL) {
-		fprintf(stderr, "Error al inicializar MySQL: %s\n", mysql_error(conn));
+int main(int argc, char *argv[])
+{
+	int sock_conn, sock_listen, ret;
+	struct sockaddr_in serv_adr;
+	char peticion[512];
+	char respuesta[512];
+	// INICIALITZACIONS
+	// Obrim el socket
+	if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+		printf("Error al crear socket\n");
 		exit(1);
 	}
-	if (!mysql_real_connect(conn, "localhost", "root", "mysql", "carrera_caballos", 0, NULL, 0)) {
-		fprintf(stderr, "Error de conexion: %s\n", mysql_error(conn));
+	// Fem el bind al port
+	memset(&serv_adr, 0, sizeof(serv_adr));// inicialitza a zero serv_addr
+	serv_adr.sin_family = AF_INET;
+	// asocia el socket a cualquiera de las IP de la m?quina.
+	//htonl formatea el numero que recibe al formato necesario
+	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
+	// escucharemos en el port 9080
+	serv_adr.sin_port = htons(9080);
+	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0) {
+		printf("Error en el bind\n");
 		exit(1);
 	}
-	return conn;
-}
-
-// Funcion para registrar un jugador
-void registrar_jugador(MYSQL *conn, char *nombre, int edad) {
-	char consulta[BUFFER_SIZE];
-	sprintf(consulta, "INSERT INTO jugadores (nombre, edad) VALUES ('%s', %d)", nombre, edad);
-	
-	if (mysql_query(conn, consulta)) {
-		fprintf(stderr, "Error al registrar jugador: %s\n", mysql_error(conn));
-	} else {
-		printf("Jugador registrado correctamente.\n");
-	}
-}
-
-// Funcion para obtener la duracion de una partida
-void obtener_duracion_partida(MYSQL *conn, int id_partida, char *resultado) {
-	char consulta[BUFFER_SIZE];
-	sprintf(consulta, "SELECT duracion FROM partidas WHERE id_partida = %d", id_partida);
-	
-	if (mysql_query(conn, consulta)) {
-		sprintf(resultado, "Error en la consulta: %s\n", mysql_error(conn));
-		return;
+	//La cola de peticiones pendientes no podr? ser superior a 4
+	if (listen(sock_listen, 3) < 0) {
+		printf("Error en el listen\n");
+		exit(1);
 	}
 	
-	MYSQL_RES *res = mysql_store_result(conn);
-	MYSQL_ROW row = mysql_fetch_row(res);
-	if (row) {
-		sprintf(resultado, "Duracion de la partida %d: %s minutos\n", id_partida, row[0]);
-	} else {
-		sprintf(resultado, "No se encontro la partida %d\n", id_partida);
-	}
-	mysql_free_result(res);
-}
-
-// Funcion para obtener el historial de partidas
-void obtener_historial_partidas(MYSQL *conn, char *resultado) {
-	char consulta[BUFFER_SIZE] = "SELECT * FROM partidas";
-	
-	if (mysql_query(conn, consulta)) {
-		sprintf(resultado, "Error en la consulta: %s\n", mysql_error(conn));
-		return;
-	}
-	
-	MYSQL_RES *res = mysql_store_result(conn);
+	// Conexiï¿ƒï¾³n a la base de datos MySQL
+	MYSQL *conn;
+	int err;
+	char consulta[256];
+	char insertar[256];
+	MYSQL_RES *resultado;
 	MYSQL_ROW row;
-	strcpy(resultado, "Historial de partidas:\n");
-	
-	while ((row = mysql_fetch_row(res))) {
-		char fila[BUFFER_SIZE];
-		sprintf(fila, "ID: %s | Fecha: %s | LÃ­mite de edad: %s\n", row[0], row[1], row[2]);
-		strcat(resultado, fila);
+	conn = mysql_init(NULL);
+	if (conn == NULL) {
+		printf("Error al crear conexion: %u %s\n", mysql_errno(conn), mysql_error(conn));
+		exit(1);
 	}
-	mysql_free_result(res);
-}
-// Funcion para obtener el li­mite de edad de una partida
-void obtener_limite_edad(MYSQL *conn, int id_partida, char *resultado) {
-	char consulta[BUFFER_SIZE];
-	sprintf(consulta, "SELECT limite_edad FROM partidas WHERE id_partida = %d", id_partida);
 	
-	if (mysql_query(conn, consulta)) {
-		sprintf(resultado, "Error en la consulta: %s\n", mysql_error(conn));
-		return;
+	conn = mysql_real_connect(conn, "localhost", "root", "mysql", "carrera_caballos", 0 , NULL, 0);
+	if (conn == NULL) {
+		printf("Error al inicializar la conexion: %u %s\n", mysql_errno(conn), mysql_error(conn));
+		exit(1);
 	}
-	MYSQL_RES *res = mysql_store_result(conn);
-	MYSQL_ROW row = mysql_fetch_row(res);
-	if (row) {
-		sprintf(resultado, "Li­mite de edad para la partida %d: %s años\n", id_partida, row[0]);
-	} else {
-		sprintf(resultado, "No se encontro la partida %d\n", id_partida);
-	}
-	mysql_free_result(res);
-}
-
-// Funcion para manejar clientes
-void manejar_cliente(int cliente_socket) {
-	MYSQL *conn = conectar_bd();
-	char buffer[BUFFER_SIZE];
 	
-	while (1) {
-		memset(buffer, 0, BUFFER_SIZE);
-		int leido = recv(cliente_socket, buffer, BUFFER_SIZE, 0);
-		if (leido <= 0) break;
+	err = mysql_query(conn, "USE carrera_caballos;");
+	if (err != 0) {
+		printf("Error al seleccionar la base de datos: %u %s\n", mysql_errno(conn), mysql_error(conn));
+		exit(1);
+	}
+	
+	// Atenderemos solo 10 peticione
+	for(;;){
+		printf ("Escuchando\n");
+		sock_conn = accept(sock_listen, NULL, NULL);
+		printf ("He recibido conexion\n");
 		
-		printf("Mensaje recibido: %s\n", buffer);
-		char respuesta[BUFFER_SIZE];
-		
-		if (strncmp(buffer, "REGISTRAR", 9) == 0) {
-			char nombre[50];
+		int terminar = 0;
+		while (terminar == 0)
+		{
+			ret = read(sock_conn, peticion, sizeof(peticion));
+			printf("Recibido\n");
+			peticion[ret] = '\0';
+			printf("Peticion: %s\n", peticion);
+			
+			char nombre[40];
+			char username[20];
+			char password[40];
 			int edad;
-			sscanf(buffer, "REGISTRAR %s %d", nombre, &edad);
-			registrar_jugador(conn, nombre, edad);
-			strcpy(respuesta, "Registro exitoso.\n");
-		
-		} else if (strncmp(buffer, "DURACION", 8) == 0) {
-			int id_partida;
-			sscanf(buffer, "DURACION %d", &id_partida);
-			obtener_duracion_partida(conn, id_partida, respuesta);
+			char *p = strtok(peticion, "/");
+			int codigo = atoi(p);
+			if (p == NULL) {
+				printf("Error: No se recibio un codigo valido.\n");
+				return 0;
+			}
+			if ((codigo<3)&&(codigo != 0))
+			{
+				p = strtok(NULL, "/");
+				if (p != NULL) strcpy(nombre, p);
+				p = strtok(NULL, "/");
+				if (p != NULL) strcpy(username, p);
+				p = strtok(NULL, "/");
+				if (p != NULL) strcpy(password, p);
+				p = strtok(NULL, "/");
+				if (p != NULL) 
+				edad = atoi(p);  
+				printf("Codigo: %d, nombre: %s, username: %s, password_p: %s, edad: %d\n", codigo, nombre, username, password, edad);
+			}
 			
-		} else if (strncmp(buffer, "HISTORIAL", 9) == 0) {
-			obtener_historial_partidas(conn, respuesta);
-			
-		} else if (strncmp(buffer, "LIMITE_EDAD", 6) == 0) {
-			int id_partida;
-			sscanf(buffer, "LIMITE %d", &id_partida);
-			obtener_limite_edad(conn, id_partida, respuesta);
-			
-		} else {
-			strcpy(respuesta, "Comando no reconocido.\n");
+			if (codigo == 0) {
+				terminar = 1;
+				//INICIAR SESION
+			} else if (codigo == 1) {
+				sprintf(consulta, "SELECT username, password_p FROM jugadores WHERE username =  '%s' AND password_p =  '%s'",username,password);
+				printf("Consulta SQL: %s\n", consulta);
+				err = mysql_query(conn, consulta);
+				if (err != 0) {
+					printf("Error al consultar datos de la base: %u %s\n", mysql_errno(conn), mysql_error(conn));
+					exit(1);
+				}
+				resultado = mysql_store_result(conn);
+				row = mysql_fetch_row(resultado);
+				if (resultado == NULL) {
+					printf("Error al obtener el resultado: %s\n", mysql_error(conn));
+					exit(1);
+				} else {
+					int num_rows = mysql_num_rows(resultado);
+					printf("Numero de filas devueltas: %d\n", num_rows);
+				}
+				
+				if (row == NULL) {
+					sprintf(respuesta,"El usuario y/o la contraseña no son correctos\n");
+				} else {
+					sprintf(respuesta,"Se ha iniciado sesion correctamente, bienvenido %s\n", row[0]);
+				}
+				printf("%s", respuesta);
+				send(sock_conn, respuesta, strlen(respuesta), 0);
+				//Registar
+			} else if (codigo == 2) {
+				sprintf(insertar, "INSERT INTO jugadores (nombre, username, password_p, edad, id_partida) VALUES ('%s', '%s', '%s', %d, NULL);", 
+						nombre, username, password, edad);		
+				printf("Consulta SQL para insertar: %s\n", insertar);
+				err = mysql_query(conn, insertar);
+				if (err != 0) {
+					printf("Error MySQL: %u - %s\n", mysql_errno(conn), mysql_error(conn));
+					sprintf(respuesta, "Error al insertar datos en la base: %u %s\n", mysql_errno(conn), mysql_error(conn));
+					exit(1);
+				}
+				else{
+					if (mysql_affected_rows(conn) > 0) {
+						sprintf(respuesta, "Usuario registrado correctamente: %s\n", username);
+					} else {
+						sprintf(respuesta, "No se pudo registrar el usuario.\n");
+					}
+				}
+				send(sock_conn, respuesta, strlen(respuesta), 0);
+			}
 		}
-		
-		send(cliente_socket, respuesta, strlen(respuesta), 0);
-	}	
-	close(cliente_socket);
-	mysql_close(conn);
-}
-int main() {
-	int servidor_socket, cliente_socket;
-	struct sockaddr_in servidor_addr, cliente_addr;
-	socklen_t cliente_len = sizeof(cliente_addr);
-	
-	servidor_socket = socket(AF_INET, SOCK_STREAM, 0);
-	servidor_addr.sin_family = AF_INET;
-	servidor_addr.sin_addr.s_addr = INADDR_ANY;
-	servidor_addr.sin_port = htons(PUERTO);
-	bind(servidor_socket, (struct sockaddr*)&servidor_addr, sizeof(servidor_addr));
-	listen(servidor_socket, MAX_CLIENTES);
-	printf("Servidor escuchando en el puerto %d...\n", PUERTO);
-	
-	while (1) {
-		cliente_socket = accept(servidor_socket, (struct sockaddr*)&cliente_addr, &cliente_len);
-		if (cliente_socket >= 0) {
-			printf("Cliente conectado.\n");
-			manejar_cliente(cliente_socket);
-		}
+		close(sock_conn);
 	}
-	
-	close(servidor_socket);
+	mysql_close(conn);
 	return 0;
 }
