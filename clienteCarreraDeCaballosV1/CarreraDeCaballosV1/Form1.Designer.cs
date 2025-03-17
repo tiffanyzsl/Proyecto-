@@ -47,8 +47,6 @@
             this.btnDesconectarse = new System.Windows.Forms.Button();
             this.lblNombre = new System.Windows.Forms.Label();
             this.textBoxNombre = new System.Windows.Forms.TextBox();
-            this.textBoxIdj = new System.Windows.Forms.TextBox();
-            this.idj = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnConectarse
@@ -66,7 +64,7 @@
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(24, 90);
+            this.lblUsername.Location = new System.Drawing.Point(21, 139);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(83, 20);
             this.lblUsername.TabIndex = 1;
@@ -74,7 +72,7 @@
             // 
             // textBoxUsername
             // 
-            this.textBoxUsername.Location = new System.Drawing.Point(50, 114);
+            this.textBoxUsername.Location = new System.Drawing.Point(47, 163);
             this.textBoxUsername.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxUsername.Name = "textBoxUsername";
             this.textBoxUsername.Size = new System.Drawing.Size(112, 26);
@@ -83,7 +81,7 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(21, 154);
+            this.lblPassword.Location = new System.Drawing.Point(18, 203);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(78, 20);
             this.lblPassword.TabIndex = 3;
@@ -91,7 +89,7 @@
             // 
             // textBoxPassword
             // 
-            this.textBoxPassword.Location = new System.Drawing.Point(43, 178);
+            this.textBoxPassword.Location = new System.Drawing.Point(40, 227);
             this.textBoxPassword.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(112, 26);
@@ -122,7 +120,7 @@
             // lblEdad
             // 
             this.lblEdad.AutoSize = true;
-            this.lblEdad.Location = new System.Drawing.Point(24, 293);
+            this.lblEdad.Location = new System.Drawing.Point(21, 342);
             this.lblEdad.Name = "lblEdad";
             this.lblEdad.Size = new System.Drawing.Size(160, 20);
             this.lblEdad.TabIndex = 7;
@@ -130,7 +128,7 @@
             // 
             // textBoxEdad
             // 
-            this.textBoxEdad.Location = new System.Drawing.Point(43, 318);
+            this.textBoxEdad.Location = new System.Drawing.Point(40, 367);
             this.textBoxEdad.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxEdad.Name = "textBoxEdad";
             this.textBoxEdad.Size = new System.Drawing.Size(112, 26);
@@ -222,7 +220,7 @@
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(24, 224);
+            this.lblNombre.Location = new System.Drawing.Point(21, 273);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(178, 20);
             this.lblNombre.TabIndex = 17;
@@ -230,36 +228,17 @@
             // 
             // textBoxNombre
             // 
-            this.textBoxNombre.Location = new System.Drawing.Point(50, 249);
+            this.textBoxNombre.Location = new System.Drawing.Point(47, 298);
             this.textBoxNombre.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxNombre.Name = "textBoxNombre";
             this.textBoxNombre.Size = new System.Drawing.Size(112, 26);
             this.textBoxNombre.TabIndex = 18;
-            // 
-            // textBoxIdj
-            // 
-            this.textBoxIdj.Location = new System.Drawing.Point(39, 401);
-            this.textBoxIdj.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBoxIdj.Name = "textBoxIdj";
-            this.textBoxIdj.Size = new System.Drawing.Size(112, 26);
-            this.textBoxIdj.TabIndex = 20;
-            // 
-            // idj
-            // 
-            this.idj.AutoSize = true;
-            this.idj.Location = new System.Drawing.Point(20, 376);
-            this.idj.Name = "idj";
-            this.idj.Size = new System.Drawing.Size(198, 20);
-            this.idj.TabIndex = 19;
-            this.idj.Text = "Id_jugador (nuevo usuario)";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 562);
-            this.Controls.Add(this.textBoxIdj);
-            this.Controls.Add(this.idj);
             this.Controls.Add(this.textBoxNombre);
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.btnDesconectarse);
@@ -309,8 +288,6 @@
         private System.Windows.Forms.Button btnDesconectarse;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.TextBox textBoxNombre;
-        private System.Windows.Forms.TextBox textBoxIdj;
-        private System.Windows.Forms.Label idj;
     }
 }
 

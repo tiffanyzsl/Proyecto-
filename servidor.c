@@ -76,10 +76,11 @@ int main(int argc, char *argv[])
 			peticion[ret] = '\0';
 			printf("Peticion: %s\n", peticion);
 			
-			char nombre[40];
 			char username[20];
 			char password[40];
+			char nombre[40];
 			int edad;
+			int id_jugador;
 			char *p = strtok(peticion, "/");
 			int codigo = atoi(p);
 			if (p == NULL) {
@@ -88,16 +89,18 @@ int main(int argc, char *argv[])
 			}
 			if ((codigo<3)&&(codigo != 0))
 			{
-				p = strtok(NULL, "/");
-				if (p != NULL) strcpy(nombre, p);
+				
 				p = strtok(NULL, "/");
 				if (p != NULL) strcpy(username, p);
 				p = strtok(NULL, "/");
 				if (p != NULL) strcpy(password, p);
 				p = strtok(NULL, "/");
+				if (p != NULL) strcpy(nombre, p);
+				p = strtok(NULL, "/");
 				if (p != NULL) 
 				edad = atoi(p);  
-				printf("Codigo: %d, nombre: %s, username: %s, password_p: %s, edad: %d\n", codigo, nombre, username, password, edad);
+				
+				printf("Codigo: %d, username: %s, password_p: %s, nombre: %s, edad: %d\n", codigo, username, password, nombre, edad);
 			}
 			
 			if (codigo == 0) {
@@ -130,8 +133,8 @@ int main(int argc, char *argv[])
 				send(sock_conn, respuesta, strlen(respuesta), 0);
 				//Registar
 			} else if (codigo == 2) {
-				sprintf(insertar, "INSERT INTO jugadores (nombre, username, password_p, edad, id_partida) VALUES ('%s', '%s', '%s', %d, NULL);", 
-						nombre, username, password, edad);		
+				sprintf(insertar, "INSERT INTO jugadores ( username, password_p, nombre, edad, id_partida) VALUES ('%s', '%s', '%s', %d, NULL);", 
+						 username, password, nombre, edad);		
 				printf("Consulta SQL para insertar: %s\n", insertar);
 				err = mysql_query(conn, insertar);
 				if (err != 0) {
@@ -146,8 +149,91 @@ int main(int argc, char *argv[])
 						sprintf(respuesta, "No se pudo registrar el usuario.\n");
 					}
 				}
+				
 				send(sock_conn, respuesta, strlen(respuesta), 0);
-			}
+			} //Consulta el historial 
+			else if(codigo==3){
+				char id_jugador[20];
+				char *c = strtok(NULL, "/");
+				strcpy(id_jugador,c);
+				printf("ID del jugador extraído: %s\n", id_jugador);  // Verifica el ID extraído
+				printf("Dame el ID del usuario que quieres consultar su historial\n");
+				sprintf (consulta,"SELECT * FROM historial WHERE id_jugador = '%s'", id_jugador);
+				printf("Consulta generada: %s\n", consulta); 
+				err = mysql_query(conn, consulta);
+				if (err != 0) {
+					printf( "Error al consultar datos de la base: %u %s\n", mysql_errno(conn), mysql_error(conn));
+					exit(1);
+				}
+				resultado = mysql_store_result(conn);
+				row = mysql_fetch_row(resultado);
+				
+				if (row == NULL) {
+					sprintf(respuesta, "No se han obtenido datos\n");
+				} else {
+					sprintf(respuesta, "Partidas jugadas: %s, Partidas ganadas: %s, Beneficio total: %s, id_jugador: %s", row[0], row[1], row[2],row[3]);
+				}
+				printf("%s", respuesta);
+				send(sock_conn, respuesta, strlen(respuesta), 0);
+			}//Consulta la duracion de partida 
+			else if (codigo == 4) {
+				char id_partida[80];
+				char *c = strtok(NULL, "/");
+				strcpy (id_partida,c);
+				printf("ID de partida recibido: %s\n", id_partida);
+				
+				//printf("Dime el id de la partidas que quieres buscar: ");
+				sprintf(consulta, "SELECT duracion FROM partidas WHERE id_partida = '%d'", atoi (id_partida));
+				printf("Consulta ejecutada: [%s]\n", consulta);
+				err = mysql_query(conn, consulta);
+				printf("Resultado de mysql_query: %d\n", err);				
+				if (err != 0) {
+					printf("Error al consultar datos de la base: %u %s\n", mysql_errno(conn), mysql_error(conn));
+					exit(1);
+				}
+				resultado = mysql_store_result(conn);
+				int num_rows = mysql_num_rows(resultado);
+				printf("Numero de filas obtenidas: %d\n", num_rows);
+				
+				if (num_rows > 0) {
+					row = mysql_fetch_row(resultado);
+					if (row) {
+						printf("Duracion de la partida obtenida: %s\n", row[0]);
+						sprintf(respuesta, "Duracion de la partida: %s\n", row[0]);
+					} else {
+						printf("Error al obtener la fila.\n");
+					}
+				}
+				printf("%s", respuesta);
+				send(sock_conn, respuesta, strlen(respuesta), 0);
+			}//Consulta limite de edad
+			else if (codigo == 5) {
+				char id_partida[80];
+				char *c = strtok(NULL, "/");
+				strcpy (id_partida,c);
+				printf("ID de partida recibido: %s\n", id_partida);
+				sprintf(consulta, "SELECT limite_edad FROM partidas WHERE id_partida = '%d'", atoi (id_partida));
+				err = mysql_query(conn, consulta);
+				if (err != 0) {
+					printf("Error al consultar datos de la base: %u %s\n", mysql_errno(conn), mysql_error(conn));
+					exit(1);
+				}
+				resultado = mysql_store_result(conn);
+				int num_rows = mysql_num_rows(resultado);
+				printf("Numero de filas obtenidas: %d\n", num_rows);
+				
+				if (num_rows > 0) {
+					row = mysql_fetch_row(resultado);
+					if (row) {
+						printf("Limite de edad: %s\n", row[0]);
+						sprintf(respuesta, "Limite de edad: %s\n", row[0]);
+					} else {
+						printf("Error al obtener la fila.\n");
+					}
+				}
+				printf("%s", respuesta);
+				send(sock_conn, respuesta, strlen(respuesta), 0);
+		    }
 		}
 		close(sock_conn);
 	}
