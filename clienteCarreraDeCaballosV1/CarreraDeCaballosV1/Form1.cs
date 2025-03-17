@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Remoting.Channels;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 
@@ -61,7 +62,7 @@ namespace CarreraDeCaballosV1
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            string mensaje = "2/" + textBoxNombre.Text + "/" + textBoxUsername.Text + "/" + textBoxPassword.Text + "/" + textBoxEdad.Text;
+            string mensaje = "2/"  + "/" + textBoxUsername.Text + "/" + textBoxPassword.Text + "/" + textBoxNombre.Text + "/" + textBoxEdad.Text ;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
 
@@ -82,6 +83,50 @@ namespace CarreraDeCaballosV1
             MessageBox.Show("Te has desconectado del servidor.");
             server.Shutdown(SocketShutdown.Both);
             server.Close();
+        }
+
+        private void btnConsulta_Click(object sender, EventArgs e)
+        {
+            if (c_historial.Checked)
+            {
+                string mensaje = "3/" + id_jugador.Text;
+                // Enviamos al servidor el nombre tecleado
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+
+                //Recibimos la respuesta del servidor
+                byte[] msg2 = new byte[80];
+                server.Receive(msg2);
+                mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                MessageBox.Show(mensaje);
+            }
+            else if (c_duracion.Checked)
+            {
+                string mensaje = "4/" + id_partida.Text;
+                // Enviamos al servidor el nombre tecleado
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+
+                //Recibimos la respuesta del servidor
+                byte[] msg2 = new byte[300];
+                server.Receive(msg2);
+                mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                MessageBox.Show(mensaje);
+
+
+            }
+            else
+            {
+                string mensaje = "5/" + id_partida1.Text;
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+
+                //Recibimos la respuesta del servidor
+                byte[] msg2 = new byte[300];
+                server.Receive(msg2);
+                mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                MessageBox.Show(mensaje);
+            }
         }
     }
 }

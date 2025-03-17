@@ -19,3 +19,13 @@ C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\clienteCarrer
 C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
 C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
 C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballosV1\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
+C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
+C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
+C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.AssemblyReference.cache
+C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form1.resources
+C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
+C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
+C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
+C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
+C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb

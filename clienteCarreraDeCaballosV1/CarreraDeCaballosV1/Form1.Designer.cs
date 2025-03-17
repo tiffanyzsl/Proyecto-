@@ -37,24 +37,27 @@
             this.btnRegister = new System.Windows.Forms.Button();
             this.lblEdad = new System.Windows.Forms.Label();
             this.textBoxEdad = new System.Windows.Forms.TextBox();
-            this.radioButtonHistorial = new System.Windows.Forms.RadioButton();
-            this.radioButtonDuracion = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.textBoxHistorial = new System.Windows.Forms.TextBox();
-            this.textBoxDuracion = new System.Windows.Forms.TextBox();
-            this.textBoxLimiteEdad = new System.Windows.Forms.TextBox();
+            this.c_historial = new System.Windows.Forms.RadioButton();
+            this.c_duracion = new System.Windows.Forms.RadioButton();
+            this.c_limite = new System.Windows.Forms.RadioButton();
+            this.id_jugador = new System.Windows.Forms.TextBox();
+            this.id_partida = new System.Windows.Forms.TextBox();
+            this.id_partida1 = new System.Windows.Forms.TextBox();
             this.btnConsulta = new System.Windows.Forms.Button();
             this.btnDesconectarse = new System.Windows.Forms.Button();
             this.lblNombre = new System.Windows.Forms.Label();
             this.textBoxNombre = new System.Windows.Forms.TextBox();
+            this.textBoxIdj = new System.Windows.Forms.TextBox();
+            this.idj = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnConectarse
             // 
             this.btnConectarse.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.btnConectarse.Location = new System.Drawing.Point(12, 12);
+            this.btnConectarse.Location = new System.Drawing.Point(14, 15);
+            this.btnConectarse.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnConectarse.Name = "btnConectarse";
-            this.btnConectarse.Size = new System.Drawing.Size(122, 47);
+            this.btnConectarse.Size = new System.Drawing.Size(137, 59);
             this.btnConectarse.TabIndex = 0;
             this.btnConectarse.Text = "Conectarse";
             this.btnConectarse.UseVisualStyleBackColor = false;
@@ -63,40 +66,43 @@
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(35, 153);
+            this.lblUsername.Location = new System.Drawing.Point(24, 90);
             this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(70, 16);
+            this.lblUsername.Size = new System.Drawing.Size(83, 20);
             this.lblUsername.TabIndex = 1;
             this.lblUsername.Text = "Username";
             // 
             // textBoxUsername
             // 
-            this.textBoxUsername.Location = new System.Drawing.Point(58, 172);
+            this.textBoxUsername.Location = new System.Drawing.Point(50, 114);
+            this.textBoxUsername.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(100, 22);
+            this.textBoxUsername.Size = new System.Drawing.Size(112, 26);
             this.textBoxUsername.TabIndex = 2;
             // 
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(38, 222);
+            this.lblPassword.Location = new System.Drawing.Point(21, 154);
             this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(67, 16);
+            this.lblPassword.Size = new System.Drawing.Size(78, 20);
             this.lblPassword.TabIndex = 3;
             this.lblPassword.Text = "Password";
             // 
             // textBoxPassword
             // 
-            this.textBoxPassword.Location = new System.Drawing.Point(58, 242);
+            this.textBoxPassword.Location = new System.Drawing.Point(43, 178);
+            this.textBoxPassword.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(100, 22);
+            this.textBoxPassword.Size = new System.Drawing.Size(112, 26);
             this.textBoxPassword.TabIndex = 4;
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(239, 38);
+            this.btnLogin.Location = new System.Drawing.Point(269, 48);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(164, 63);
+            this.btnLogin.Size = new System.Drawing.Size(184, 79);
             this.btnLogin.TabIndex = 5;
             this.btnLogin.Text = "LOGIN";
             this.btnLogin.UseVisualStyleBackColor = true;
@@ -104,9 +110,10 @@
             // 
             // btnRegister
             // 
-            this.btnRegister.Location = new System.Drawing.Point(238, 122);
+            this.btnRegister.Location = new System.Drawing.Point(268, 152);
+            this.btnRegister.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(165, 63);
+            this.btnRegister.Size = new System.Drawing.Size(186, 79);
             this.btnRegister.TabIndex = 6;
             this.btnRegister.Text = "REGISTER";
             this.btnRegister.UseVisualStyleBackColor = true;
@@ -115,88 +122,98 @@
             // lblEdad
             // 
             this.lblEdad.AutoSize = true;
-            this.lblEdad.Location = new System.Drawing.Point(41, 287);
+            this.lblEdad.Location = new System.Drawing.Point(24, 293);
             this.lblEdad.Name = "lblEdad";
-            this.lblEdad.Size = new System.Drawing.Size(135, 16);
+            this.lblEdad.Size = new System.Drawing.Size(160, 20);
             this.lblEdad.TabIndex = 7;
             this.lblEdad.Text = "Edad (nuevo usuario)";
             // 
             // textBoxEdad
             // 
-            this.textBoxEdad.Location = new System.Drawing.Point(58, 307);
+            this.textBoxEdad.Location = new System.Drawing.Point(43, 318);
+            this.textBoxEdad.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxEdad.Name = "textBoxEdad";
-            this.textBoxEdad.Size = new System.Drawing.Size(100, 22);
+            this.textBoxEdad.Size = new System.Drawing.Size(112, 26);
             this.textBoxEdad.TabIndex = 8;
             // 
-            // radioButtonHistorial
+            // c_historial
             // 
-            this.radioButtonHistorial.AutoSize = true;
-            this.radioButtonHistorial.Location = new System.Drawing.Point(239, 214);
-            this.radioButtonHistorial.Name = "radioButtonHistorial";
-            this.radioButtonHistorial.Size = new System.Drawing.Size(363, 20);
-            this.radioButtonHistorial.TabIndex = 9;
-            this.radioButtonHistorial.TabStop = true;
-            this.radioButtonHistorial.Text = "Dame el ID del jugador que quieras consultar el historial:";
-            this.radioButtonHistorial.UseVisualStyleBackColor = true;
+            this.c_historial.AutoSize = true;
+            this.c_historial.Location = new System.Drawing.Point(269, 268);
+            this.c_historial.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.c_historial.Name = "c_historial";
+            this.c_historial.Size = new System.Drawing.Size(430, 24);
+            this.c_historial.TabIndex = 9;
+            this.c_historial.TabStop = true;
+            this.c_historial.Text = "Dame el ID del jugador que quieras consultar el historial:";
+            this.c_historial.UseVisualStyleBackColor = true;
             // 
-            // radioButtonDuracion
+            // c_duracion
             // 
-            this.radioButtonDuracion.AutoSize = true;
-            this.radioButtonDuracion.Location = new System.Drawing.Point(239, 240);
-            this.radioButtonDuracion.Name = "radioButtonDuracion";
-            this.radioButtonDuracion.Size = new System.Drawing.Size(373, 20);
-            this.radioButtonDuracion.TabIndex = 10;
-            this.radioButtonDuracion.TabStop = true;
-            this.radioButtonDuracion.Text = "Dame el ID de la partida que quieras consular la duracion:";
-            this.radioButtonDuracion.UseVisualStyleBackColor = true;
+            this.c_duracion.AutoSize = true;
+            this.c_duracion.Location = new System.Drawing.Point(269, 300);
+            this.c_duracion.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.c_duracion.Name = "c_duracion";
+            this.c_duracion.Size = new System.Drawing.Size(441, 24);
+            this.c_duracion.TabIndex = 10;
+            this.c_duracion.TabStop = true;
+            this.c_duracion.Text = "Dame el ID de la partida que quieras consular la duracion:";
+            this.c_duracion.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // c_limite
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(239, 266);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(409, 20);
-            this.radioButton1.TabIndex = 11;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Dame el ID de la partida que quieras consultar el limite de edad:";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.c_limite.AutoSize = true;
+            this.c_limite.Location = new System.Drawing.Point(269, 332);
+            this.c_limite.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.c_limite.Name = "c_limite";
+            this.c_limite.Size = new System.Drawing.Size(483, 24);
+            this.c_limite.TabIndex = 11;
+            this.c_limite.TabStop = true;
+            this.c_limite.Text = "Dame el ID de la partida que quieras consultar el limite de edad:";
+            this.c_limite.UseVisualStyleBackColor = true;
             // 
-            // textBoxHistorial
+            // id_jugador
             // 
-            this.textBoxHistorial.Location = new System.Drawing.Point(608, 214);
-            this.textBoxHistorial.Name = "textBoxHistorial";
-            this.textBoxHistorial.Size = new System.Drawing.Size(100, 22);
-            this.textBoxHistorial.TabIndex = 12;
+            this.id_jugador.Location = new System.Drawing.Point(705, 266);
+            this.id_jugador.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.id_jugador.Name = "id_jugador";
+            this.id_jugador.Size = new System.Drawing.Size(112, 26);
+            this.id_jugador.TabIndex = 12;
             // 
-            // textBoxDuracion
+            // id_partida
             // 
-            this.textBoxDuracion.Location = new System.Drawing.Point(618, 242);
-            this.textBoxDuracion.Name = "textBoxDuracion";
-            this.textBoxDuracion.Size = new System.Drawing.Size(100, 22);
-            this.textBoxDuracion.TabIndex = 13;
+            this.id_partida.Location = new System.Drawing.Point(716, 298);
+            this.id_partida.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.id_partida.Name = "id_partida";
+            this.id_partida.Size = new System.Drawing.Size(112, 26);
+            this.id_partida.TabIndex = 13;
             // 
-            // textBoxLimiteEdad
+            // id_partida1
             // 
-            this.textBoxLimiteEdad.Location = new System.Drawing.Point(654, 266);
-            this.textBoxLimiteEdad.Name = "textBoxLimiteEdad";
-            this.textBoxLimiteEdad.Size = new System.Drawing.Size(100, 22);
-            this.textBoxLimiteEdad.TabIndex = 14;
+            this.id_partida1.Location = new System.Drawing.Point(758, 330);
+            this.id_partida1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.id_partida1.Name = "id_partida1";
+            this.id_partida1.Size = new System.Drawing.Size(112, 26);
+            this.id_partida1.TabIndex = 14;
             // 
             // btnConsulta
             // 
-            this.btnConsulta.Location = new System.Drawing.Point(392, 321);
+            this.btnConsulta.Location = new System.Drawing.Point(441, 401);
+            this.btnConsulta.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnConsulta.Name = "btnConsulta";
-            this.btnConsulta.Size = new System.Drawing.Size(180, 71);
+            this.btnConsulta.Size = new System.Drawing.Size(202, 89);
             this.btnConsulta.TabIndex = 15;
             this.btnConsulta.Text = "CONSULTAR";
             this.btnConsulta.UseVisualStyleBackColor = true;
+            this.btnConsulta.Click += new System.EventHandler(this.btnConsulta_Click);
             // 
             // btnDesconectarse
             // 
             this.btnDesconectarse.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.btnDesconectarse.Location = new System.Drawing.Point(13, 363);
+            this.btnDesconectarse.Location = new System.Drawing.Point(15, 454);
+            this.btnDesconectarse.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDesconectarse.Name = "btnDesconectarse";
-            this.btnDesconectarse.Size = new System.Drawing.Size(122, 47);
+            this.btnDesconectarse.Size = new System.Drawing.Size(137, 59);
             this.btnDesconectarse.TabIndex = 16;
             this.btnDesconectarse.Text = "Desconectarse";
             this.btnDesconectarse.UseVisualStyleBackColor = false;
@@ -205,34 +222,54 @@
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(35, 85);
+            this.lblNombre.Location = new System.Drawing.Point(24, 224);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(151, 16);
+            this.lblNombre.Size = new System.Drawing.Size(178, 20);
             this.lblNombre.TabIndex = 17;
             this.lblNombre.Text = "Nombre (nuevo usuario)";
             // 
             // textBoxNombre
             // 
-            this.textBoxNombre.Location = new System.Drawing.Point(58, 105);
+            this.textBoxNombre.Location = new System.Drawing.Point(50, 249);
+            this.textBoxNombre.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxNombre.Name = "textBoxNombre";
-            this.textBoxNombre.Size = new System.Drawing.Size(100, 22);
+            this.textBoxNombre.Size = new System.Drawing.Size(112, 26);
             this.textBoxNombre.TabIndex = 18;
+            // 
+            // textBoxIdj
+            // 
+            this.textBoxIdj.Location = new System.Drawing.Point(39, 401);
+            this.textBoxIdj.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxIdj.Name = "textBoxIdj";
+            this.textBoxIdj.Size = new System.Drawing.Size(112, 26);
+            this.textBoxIdj.TabIndex = 20;
+            // 
+            // idj
+            // 
+            this.idj.AutoSize = true;
+            this.idj.Location = new System.Drawing.Point(20, 376);
+            this.idj.Name = "idj";
+            this.idj.Size = new System.Drawing.Size(198, 20);
+            this.idj.TabIndex = 19;
+            this.idj.Text = "Id_jugador (nuevo usuario)";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(900, 562);
+            this.Controls.Add(this.textBoxIdj);
+            this.Controls.Add(this.idj);
             this.Controls.Add(this.textBoxNombre);
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.btnDesconectarse);
             this.Controls.Add(this.btnConsulta);
-            this.Controls.Add(this.textBoxLimiteEdad);
-            this.Controls.Add(this.textBoxDuracion);
-            this.Controls.Add(this.textBoxHistorial);
-            this.Controls.Add(this.radioButton1);
-            this.Controls.Add(this.radioButtonDuracion);
-            this.Controls.Add(this.radioButtonHistorial);
+            this.Controls.Add(this.id_partida1);
+            this.Controls.Add(this.id_partida);
+            this.Controls.Add(this.id_jugador);
+            this.Controls.Add(this.c_limite);
+            this.Controls.Add(this.c_duracion);
+            this.Controls.Add(this.c_historial);
             this.Controls.Add(this.textBoxEdad);
             this.Controls.Add(this.lblEdad);
             this.Controls.Add(this.btnRegister);
@@ -242,6 +279,7 @@
             this.Controls.Add(this.textBoxUsername);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.btnConectarse);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -261,16 +299,18 @@
         private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.Label lblEdad;
         private System.Windows.Forms.TextBox textBoxEdad;
-        private System.Windows.Forms.RadioButton radioButtonHistorial;
-        private System.Windows.Forms.RadioButton radioButtonDuracion;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.TextBox textBoxHistorial;
-        private System.Windows.Forms.TextBox textBoxDuracion;
-        private System.Windows.Forms.TextBox textBoxLimiteEdad;
+        private System.Windows.Forms.RadioButton c_historial;
+        private System.Windows.Forms.RadioButton c_duracion;
+        private System.Windows.Forms.RadioButton c_limite;
+        private System.Windows.Forms.TextBox id_jugador;
+        private System.Windows.Forms.TextBox id_partida;
+        private System.Windows.Forms.TextBox id_partida1;
         private System.Windows.Forms.Button btnConsulta;
         private System.Windows.Forms.Button btnDesconectarse;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.TextBox textBoxNombre;
+        private System.Windows.Forms.TextBox textBoxIdj;
+        private System.Windows.Forms.Label idj;
     }
 }
 
