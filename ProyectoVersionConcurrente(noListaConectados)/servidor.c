@@ -6,7 +6,6 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <mysql/mysql.h>
-<<<<<<< HEAD
 #include <pthread.h>
 
 
@@ -19,40 +18,6 @@ void *AtenderCliente (void *socket)
 	char peticion[512];
 	char respuesta[512];
 	
-=======
-
-int main(int argc, char *argv[])
-{
-	int sock_conn, sock_listen, ret;
-	struct sockaddr_in serv_adr;
-	char peticion[512];
-	char respuesta[512];
-	// INICIALITZACIONS
-	// Obrim el socket
-	if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-		printf("Error al crear socket\n");
-		exit(1);
-	}
-	// Fem el bind al port
-	memset(&serv_adr, 0, sizeof(serv_adr));// inicialitza a zero serv_addr
-	serv_adr.sin_family = AF_INET;
-	// asocia el socket a cualquiera de las IP de la m?quina.
-	//htonl formatea el numero que recibe al formato necesario
-	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
-	// escucharemos en el port 9080
-	serv_adr.sin_port = htons(9080);
-	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0) {
-		printf("Error en el bind\n");
-		exit(1);
-	}
-	//La cola de peticiones pendientes no podr? ser superior a 4
-	if (listen(sock_listen, 3) < 0) {
-		printf("Error en el listen\n");
-		exit(1);
-	}
-	
-	// Conexiￃﾳn a la base de datos MySQL
->>>>>>> b366e54419f7d62d2e981d756015cf7cca65c1c5
 	MYSQL *conn;
 	int err;
 	char consulta[256];
@@ -77,20 +42,9 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	
-<<<<<<< HEAD
 		
 		int terminar = 0;
 		while (!terminar)
-=======
-	// Atenderemos solo 10 peticione
-	for(;;){
-		printf ("Escuchando\n");
-		sock_conn = accept(sock_listen, NULL, NULL);
-		printf ("He recibido conexion\n");
-		
-		int terminar = 0;
-		while (terminar == 0)
->>>>>>> b366e54419f7d62d2e981d756015cf7cca65c1c5
 		{
 			ret = read(sock_conn, peticion, sizeof(peticion));
 			printf("Recibido\n");
@@ -119,11 +73,7 @@ int main(int argc, char *argv[])
 				if (p != NULL) strcpy(nombre, p);
 				p = strtok(NULL, "/");
 				if (p != NULL) 
-<<<<<<< HEAD
 					edad = atoi(p);  
-=======
-				edad = atoi(p);  
->>>>>>> b366e54419f7d62d2e981d756015cf7cca65c1c5
 				
 				printf("Codigo: %d, username: %s, password_p: %s, nombre: %s, edad: %d\n", codigo, username, password, nombre, edad);
 			}
@@ -159,11 +109,7 @@ int main(int argc, char *argv[])
 				//Registar
 			} else if (codigo == 2) {
 				sprintf(insertar, "INSERT INTO jugadores ( username, password_p, nombre, edad, id_partida) VALUES ('%s', '%s', '%s', %d, NULL);", 
-<<<<<<< HEAD
 						username, password, nombre, edad);		
-=======
-						 username, password, nombre, edad);		
->>>>>>> b366e54419f7d62d2e981d756015cf7cca65c1c5
 				printf("Consulta SQL para insertar: %s\n", insertar);
 				err = mysql_query(conn, insertar);
 				if (err != 0) {
@@ -262,7 +208,6 @@ int main(int argc, char *argv[])
 				}
 				printf("%s", respuesta);
 				send(sock_conn, respuesta, strlen(respuesta), 0);
-<<<<<<< HEAD
 			}
 		}
 		close(sock_conn);
@@ -313,12 +258,3 @@ int main(int argc, char *argv[])
 
 
 
-=======
-		    }
-		}
-		close(sock_conn);
-	}
-	mysql_close(conn);
-	return 0;
-}
->>>>>>> b366e54419f7d62d2e981d756015cf7cca65c1c5

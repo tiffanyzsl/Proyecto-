@@ -29,6 +29,7 @@ C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyect
 C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
 C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
 C:\Users\tiffa\OneDrive\Desktop\Universidad\2nd de carrera\2nd cuatri\so\Proyecto\Proyecto-\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+<<<<<<< HEAD
 C:\Users\xpeca\Downloads\Proyecto--main\Proyecto--main\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
 C:\Users\xpeca\Downloads\Proyecto--main\Proyecto--main\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
 C:\Users\xpeca\Downloads\Proyecto--main\Proyecto--main\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
@@ -39,3 +40,5 @@ C:\Users\xpeca\Downloads\Proyecto--main\Proyecto--main\clienteCarreraDeCaballosV
 C:\Users\xpeca\Downloads\Proyecto--main\Proyecto--main\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
 C:\Users\xpeca\Downloads\Proyecto--main\Proyecto--main\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
 C:\Users\xpeca\Downloads\Proyecto--main\Proyecto--main\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+=======
+>>>>>>> b366e54419f7d62d2e981d756015cf7cca65c1c5
