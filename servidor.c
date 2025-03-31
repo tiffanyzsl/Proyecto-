@@ -8,16 +8,87 @@
 #include <mysql/mysql.h>
 #include <pthread.h>
 
+typedef struct {
+	char usuario[20];
+	int socket;
+}Conectado;
+
+typedef struct {
+	Conectado conectados[100];
+	int num;
+}ListaConectados;
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+ListaConectados miLista;
+
+int PonConectado (ListaConectados *lista, char usuario[20], int socket) {
+	//Devuelve -1 si la lista esta llena
+	//Devuelve 0 si ha podido añadir el usuario a la lista
+	if (lista->num == 100)
+		return -1;
+	else {
+		strcpy (lista -> conectados [lista -> num].usuario, usuario);
+		lista -> conectados[lista -> num].socket = socket;
+		lista -> num++;
+		return 0;
+	}
+}
+
+int DamePosicion (ListaConectados *lista, char usuario[20]){
+	//Devuelve la posicion o -1 si no esta en la lista
+	int i = 0;
+	int encontrado = 0;
+	while ((i < lista -> num) && !encontrado)
+	{
+		if (strcmp(lista->conectados[i].usuario,usuario) == 0)
+			encontrado = 1;
+		if (!encontrado)
+			pthread_mutex_lock(&mutex);
+			i = i+1;	
+			pthread_mutex_unlock(&mutex);
+	}
+	if (encontrado)
+		return i;
+	else
+		return -1;
+}
+
+int Eliminar (ListaConectados *lista, char usuario[20]){
+	//Devuelve 0 si elimina al usuario de la lista
+	//Devuelve -1 si no ha podido eliminar al usuario de la lista
+	int pos = DamePosicion (lista, usuario);
+	if (pos == -1)
+		return -1;
+	else{
+		int i;
+		for (i = pos; i < lista->num-1; i++)
+		{
+			lista -> conectados[i] = lista -> conectados[i+1];
+			//strcpy(lista->conectados[i].nombre, lista->conectados[i+1].nombre);
+			//lista->conectados[i].socket = lista->conectados[i+1].socket;
+		}
+		lista->num--;
+		return 0;
+	}		
+}
+
+void DameConectados (ListaConectados *lista, char conectados [300]){
+	//Pone en conectados los nombres de todos los conectados separados por /
+	sprintf(conectados, "%d", lista->num);
+	int i;
+	for (i=0; i< lista->num; i++)
+		sprintf(conectados, "%s/%s", conectados, lista->conectados[i].usuario);
+}
 
 void *AtenderCliente (void *socket)
 { 
-	int sock_conn, ret;
+	int sock_conn;
+	int ret;
 	int *s;
 	s = (int *) socket;
 	sock_conn = *s;
 	char peticion[512];
 	char respuesta[512];
-	
 	MYSQL *conn;
 	int err;
 	char consulta[256];
@@ -79,6 +150,9 @@ void *AtenderCliente (void *socket)
 			}
 			
 			if (codigo == 0) {
+				Eliminar(&miLista, username);
+				printf("Usuario desconectado: %s\n", username);
+				break;
 				terminar = 1;
 				//INICIAR SESION
 			} else if (codigo == 1) {
@@ -106,6 +180,8 @@ void *AtenderCliente (void *socket)
 				}
 				printf("%s", respuesta);
 				send(sock_conn, respuesta, strlen(respuesta), 0);
+				PonConectado(&miLista, username, sock_conn);
+				printf("Usuario conectado: %s\n", username);
 				//Registar
 			} else if (codigo == 2) {
 				sprintf(insertar, "INSERT INTO jugadores ( username, password_p, nombre, edad, id_partida) VALUES ('%s', '%s', '%s', %d, NULL);", 
@@ -209,11 +285,18 @@ void *AtenderCliente (void *socket)
 				printf("%s", respuesta);
 				send(sock_conn, respuesta, strlen(respuesta), 0);
 			}
+			else if (codigo == 6) {  // Cliente pide la lista de usuarios conectados
+				char conectados[300];
+				DameConectados(&miLista, conectados);
+				send(sock_conn, conectados, strlen(conectados), 0);
+			}
 		}
 		close(sock_conn);
 }
 int main(int argc, char *argv[])
 {
+	miLista.num = 0;
+	
 	int sock_conn, sock_listen;
 	struct sockaddr_in serv_adr;
 	// INICIALITZACIONS
@@ -252,7 +335,6 @@ int main(int argc, char *argv[])
 		pthread_create(&thread[i], NULL, AtenderCliente, &sockets[i]);
 		i++;
 	}
-	
 	return 0;
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -58,6 +59,7 @@ namespace CarreraDeCaballosV1
             string respuesta = Encoding.ASCII.GetString(msg2, 0, bytesRecibidos).Trim('\0');
 
             MessageBox.Show(respuesta);
+            
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -127,6 +129,18 @@ namespace CarreraDeCaballosV1
                 mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
                 MessageBox.Show(mensaje);
             }
+        }        
+        private void btnListaConectados_Click(object sender, EventArgs e)
+        {
+            string mensaje = "6/"; // Código 6 para pedir la lista de conectados
+            byte[] msg = Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+
+            //Recibimos la respuesta del servidor
+            byte[] msg2 = new byte[300];
+            server.Receive(msg2);
+            mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+            lblListaConectados.Text = mensaje;
         }
     }
 }

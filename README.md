@@ -1,1 +1,1 @@
-# Proyecto V1 VersionConcurrente sin ListaConectados 
+# Proyecto V2 
