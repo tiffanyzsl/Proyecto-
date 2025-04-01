@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "C:\\Users\\xpeca\\OneDrive\\Escritorio\\SO\\Proyecto\\CarreraDeCaballos\\clienteCarreraDeCaballosV1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E40E053A-2A67-498C-8FD5-C570A91C5E50}|CarreraDeCaballosV1\\CarreraDeCaballosV1.csproj|C:\\Users\\xpeca\\OneDrive\\Escritorio\\SO\\Proyecto\\CarreraDeCaballos\\clienteCarreraDeCaballosV1\\carreradecaballosv1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E40E053A-2A67-498C-8FD5-C570A91C5E50}|CarreraDeCaballosV1\\CarreraDeCaballosV1.csproj|c:\\users\\xpeca\\onedrive\\escritorio\\so\\proyecto\\carreradecaballos\\clientecarreradecaballosv1\\carreradecaballosv1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E40E053A-2A67-498C-8FD5-C570A91C5E50}|CarreraDeCaballosV1\\CarreraDeCaballosV1.csproj|solutionrelative:carreradecaballosv1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E40E053A-2A67-498C-8FD5-C570A91C5E50}|CarreraDeCaballosV1\\CarreraDeCaballosV1.csproj|c:\\users\\xpeca\\onedrive\\escritorio\\so\\proyecto\\carreradecaballos\\clientecarreradecaballosv1\\carreradecaballosv1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{E40E053A-2A67-498C-8FD5-C570A91C5E50}|CarreraDeCaballosV1\\CarreraDeCaballosV1.csproj|C:\\Users\\xpeca\\OneDrive\\Escritorio\\SO\\Proyecto\\CarreraDeCaballos\\clienteCarreraDeCaballosV1\\carreradecaballosv1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{E40E053A-2A67-498C-8FD5-C570A91C5E50}|CarreraDeCaballosV1\\CarreraDeCaballosV1.csproj|solutionrelative:carreradecaballosv1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
@@ -43,11 +43,10 @@
               "Title": "Form1.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\xpeca\\OneDrive\\Escritorio\\SO\\Proyecto\\CarreraDeCaballos\\clienteCarreraDeCaballosV1\\CarreraDeCaballosV1\\Form1.cs",
               "RelativeDocumentMoniker": "CarreraDeCaballosV1\\Form1.cs",
-              "ToolTip": "C:\\Users\\xpeca\\OneDrive\\Escritorio\\SO\\Proyecto\\CarreraDeCaballos\\clienteCarreraDeCaballosV1\\CarreraDeCaballosV1\\Form1.cs [Dise\u00F1o]",
-              "RelativeToolTip": "CarreraDeCaballosV1\\Form1.cs [Dise\u00F1o]",
+              "ToolTip": "C:\\Users\\xpeca\\OneDrive\\Escritorio\\SO\\Proyecto\\CarreraDeCaballos\\clienteCarreraDeCaballosV1\\CarreraDeCaballosV1\\Form1.cs [Dise\u00F1o]*",
+              "RelativeToolTip": "CarreraDeCaballosV1\\Form1.cs [Dise\u00F1o]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-30T12:33:22.86Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2025-03-30T12:33:22.86Z"
             }
           ]
         }
