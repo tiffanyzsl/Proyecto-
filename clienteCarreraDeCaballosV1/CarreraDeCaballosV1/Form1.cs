@@ -18,6 +18,10 @@ namespace CarreraDeCaballosV1
     public partial class Form1: Form
     {
         Socket server;
+        string rutaCaballo = Path.Combine(Application.StartupPath, "imagenes", "caballo.png");
+        string rutaFinish = Path.Combine(Application.StartupPath, "imagenes", "finish.png");
+
+
         public Form1()
         {
             InitializeComponent();
@@ -25,6 +29,10 @@ namespace CarreraDeCaballosV1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            caballo1.Image = Image.FromFile(rutaCaballo);
+            caballo2.Image = Image.FromFile(rutaCaballo);
+            caballo3.Image = Image.FromFile(rutaCaballo);
+            finish.Image = Image.FromFile(rutaFinish);
 
         }
 
@@ -64,7 +72,7 @@ namespace CarreraDeCaballosV1
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            string mensaje = "2/"  + "/" + textBoxUsername.Text + "/" + textBoxPassword.Text + "/" + textBoxNombre.Text + "/" + textBoxEdad.Text ;
+            string mensaje = "2/"  + textBoxUsername.Text + "/" + textBoxPassword.Text + "/" + textBoxNombre.Text + "/" + textBoxEdad.Text ;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
 
@@ -142,5 +150,47 @@ namespace CarreraDeCaballosV1
             mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
             lblListaConectados.Text = mensaje;
         }
+
+        Random rnd = new Random();
+
+        private void btnjugar_Click(object sender, EventArgs e)
+        {
+            // Resetear posiciones de los caballos
+            caballo1.Left = 0;
+            caballo2.Left = 0;
+            caballo3.Left = 0;
+
+            // Iniciar el timer
+            timerCarrera.Start();
+        }
+
+        private void timerCarrera_Tick(object sender, EventArgs e)
+        {
+            // Mover los caballos con velocidad aleatoria
+            caballo1.Left += rnd.Next(5, 15);
+            caballo2.Left += rnd.Next(5, 15);
+            caballo3.Left += rnd.Next(5, 15);
+
+            int meta = finish.Left - caballo1.Width-23;
+
+            // Verificar si algún caballo ha llegado a la meta
+            if (caballo1.Left >= meta || caballo2.Left >= meta || caballo3.Left >= meta)
+            {
+                timerCarrera.Stop();
+
+                string ganador = "";
+
+                if (caballo1.Left >= meta)
+                    ganador = "Caballo 1";
+                else if (caballo2.Left >= meta)
+                    ganador = "Caballo 2";
+                else if (caballo3.Left >= meta)
+                    ganador = "Caballo 3";
+
+                MessageBox.Show($"¡El ganador es {ganador}!");
+            }
+        }
+
+   
     }
 }
