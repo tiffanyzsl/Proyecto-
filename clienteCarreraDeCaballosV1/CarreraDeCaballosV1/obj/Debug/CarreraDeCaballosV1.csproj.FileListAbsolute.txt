@@ -59,3 +59,73 @@ C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballos\clienteCarreraD
 C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
 C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
 C:\Users\xpeca\OneDrive\Escritorio\SO\Proyecto\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.AssemblyReference.cache
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form1.resources
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.AssemblyReference.cache
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form1.resources
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
+C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+C:\Users\xpeca\Downloads\CarreraDeCaballos (1)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.AssemblyReference.cache
+C:\Users\xpeca\Downloads\CarreraDeCaballos (1)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
+C:\Users\xpeca\Downloads\CarreraDeCaballos (1)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+C:\Users\xpeca\Downloads\CarreraDeCaballos (1)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
+C:\Users\xpeca\Downloads\CarreraDeCaballos (1)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
+C:\Users\xpeca\Downloads\CarreraDeCaballos (1)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
+C:\Users\xpeca\Downloads\CarreraDeCaballos (1)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form1.resources
+C:\Users\xpeca\Downloads\CarreraDeCaballos (1)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
+C:\Users\xpeca\Downloads\CarreraDeCaballos (1)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
+C:\Users\xpeca\Downloads\CarreraDeCaballos (1)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
+C:\Users\grabc\Downloads\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
+C:\Users\grabc\Downloads\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
+C:\Users\grabc\Downloads\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
+C:\Users\grabc\Downloads\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.AssemblyReference.cache
+C:\Users\grabc\Downloads\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form1.resources
+C:\Users\grabc\Downloads\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
+C:\Users\grabc\Downloads\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
+C:\Users\grabc\Downloads\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
+C:\Users\grabc\Downloads\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
+C:\Users\grabc\Downloads\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+C:\Users\xpeca\Downloads\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
+C:\Users\xpeca\Downloads\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
+C:\Users\xpeca\Downloads\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
+C:\Users\xpeca\Downloads\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.AssemblyReference.cache
+C:\Users\xpeca\Downloads\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form1.resources
+C:\Users\xpeca\Downloads\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
+C:\Users\xpeca\Downloads\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
+C:\Users\xpeca\Downloads\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
+C:\Users\xpeca\Downloads\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
+C:\Users\xpeca\Downloads\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+C:\Users\grabc\Downloads\CarreraDeCaballos (3) (1)\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.AssemblyReference.cache
+C:\Users\grabc\Downloads\CarreraDeCaballos (3) (1)\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
+C:\Users\grabc\Downloads\CarreraDeCaballos (3) (1)\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+C:\Users\grabc\Downloads\CarreraDeCaballos (3) (1)\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
+C:\Users\grabc\Downloads\CarreraDeCaballos (3) (1)\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
+C:\Users\grabc\Downloads\CarreraDeCaballos (3) (1)\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
+C:\Users\grabc\Downloads\CarreraDeCaballos (3) (1)\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form1.resources
+C:\Users\grabc\Downloads\CarreraDeCaballos (3) (1)\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
+C:\Users\grabc\Downloads\CarreraDeCaballos (3) (1)\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
+C:\Users\grabc\Downloads\CarreraDeCaballos (3) (1)\CarreraDeCaballos (2) (1)\CarreraDeCaballos (2)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
+C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.AssemblyReference.cache
+C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
+C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
+C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
+C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
+C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
+C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form1.resources
+C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
+C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
+C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
