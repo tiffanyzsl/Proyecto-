@@ -48,6 +48,10 @@
             this.btnConsulta = new System.Windows.Forms.Button();
             this.btnDesconectarse = new System.Windows.Forms.Button();
             this.lblTituloUsuariosConectados = new System.Windows.Forms.Label();
+<<<<<<< HEAD
+=======
+            this.btnListaConectados = new System.Windows.Forms.Button();
+>>>>>>> 6c07e1f8fc865ad0000d023dc0581b15d18521c4
             this.caballo1 = new System.Windows.Forms.PictureBox();
             this.caballo2 = new System.Windows.Forms.PictureBox();
             this.caballo3 = new System.Windows.Forms.PictureBox();
@@ -57,6 +61,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.finish = new System.Windows.Forms.PictureBox();
+<<<<<<< HEAD
             this.TextBoxCaballoEligido = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -77,6 +82,8 @@
             this.cerrarsesionBTN = new System.Windows.Forms.Button();
             this.dueloBTN = new System.Windows.Forms.Button();
             this.confirmarapuestaBTN = new System.Windows.Forms.Button();
+=======
+>>>>>>> 6c07e1f8fc865ad0000d023dc0581b15d18521c4
             ((System.ComponentModel.ISupportInitialize)(this.caballo1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.caballo2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.caballo3)).BeginInit();
@@ -531,10 +538,89 @@
             this.confirmarapuestaBTN.UseVisualStyleBackColor = true;
             this.confirmarapuestaBTN.Click += new System.EventHandler(this.confirmarapuestaBTN_Click);
             // 
+            // caballo1
+            // 
+            this.caballo1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("caballo1.ErrorImage")));
+            this.caballo1.InitialImage = ((System.Drawing.Image)(resources.GetObject("caballo1.InitialImage")));
+            this.caballo1.Location = new System.Drawing.Point(0, 3);
+            this.caballo1.Name = "caballo1";
+            this.caballo1.Size = new System.Drawing.Size(82, 42);
+            this.caballo1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.caballo1.TabIndex = 23;
+            this.caballo1.TabStop = false;
+            // 
+            // caballo2
+            // 
+            this.caballo2.Location = new System.Drawing.Point(3, 3);
+            this.caballo2.Name = "caballo2";
+            this.caballo2.Size = new System.Drawing.Size(82, 42);
+            this.caballo2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.caballo2.TabIndex = 24;
+            this.caballo2.TabStop = false;
+            // 
+            // caballo3
+            // 
+            this.caballo3.Location = new System.Drawing.Point(3, 3);
+            this.caballo3.Name = "caballo3";
+            this.caballo3.Size = new System.Drawing.Size(82, 42);
+            this.caballo3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.caballo3.TabIndex = 25;
+            this.caballo3.TabStop = false;
+            // 
+            // btnjugar
+            // 
+            this.btnjugar.Location = new System.Drawing.Point(202, 652);
+            this.btnjugar.Name = "btnjugar";
+            this.btnjugar.Size = new System.Drawing.Size(105, 37);
+            this.btnjugar.TabIndex = 26;
+            this.btnjugar.Text = "JUGAR";
+            this.btnjugar.UseVisualStyleBackColor = true;
+            this.btnjugar.Click += new System.EventHandler(this.btnjugar_Click);
+            // 
+            // timerCarrera
+            // 
+            this.timerCarrera.Tick += new System.EventHandler(this.timerCarrera_Tick);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.panel1.Controls.Add(this.caballo1);
+            this.panel1.Location = new System.Drawing.Point(202, 481);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1000, 47);
+            this.panel1.TabIndex = 27;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.panel2.Controls.Add(this.caballo2);
+            this.panel2.Location = new System.Drawing.Point(202, 534);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1000, 48);
+            this.panel2.TabIndex = 28;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.panel3.Controls.Add(this.caballo3);
+            this.panel3.Location = new System.Drawing.Point(202, 588);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1000, 49);
+            this.panel3.TabIndex = 28;
+            // 
+            // finish
+            // 
+            this.finish.Location = new System.Drawing.Point(1208, 484);
+            this.finish.Name = "finish";
+            this.finish.Size = new System.Drawing.Size(43, 156);
+            this.finish.TabIndex = 29;
+            this.finish.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+<<<<<<< HEAD
             this.ClientSize = new System.Drawing.Size(1479, 810);
             this.Controls.Add(this.confirmarapuestaBTN);
             this.Controls.Add(this.dueloBTN);
@@ -554,11 +640,18 @@
             this.Controls.Add(this.TextBoxApuestaEligida);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TextBoxCaballoEligido);
+=======
+            this.ClientSize = new System.Drawing.Size(1263, 810);
+>>>>>>> 6c07e1f8fc865ad0000d023dc0581b15d18521c4
             this.Controls.Add(this.finish);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnjugar);
+<<<<<<< HEAD
+=======
+            this.Controls.Add(this.btnListaConectados);
+>>>>>>> 6c07e1f8fc865ad0000d023dc0581b15d18521c4
             this.Controls.Add(this.lblTituloUsuariosConectados);
             this.Controls.Add(this.btnDesconectarse);
             this.Controls.Add(this.btnConsulta);
@@ -613,6 +706,10 @@
         private System.Windows.Forms.Button btnConsulta;
         private System.Windows.Forms.Button btnDesconectarse;
         private System.Windows.Forms.Label lblTituloUsuariosConectados;
+<<<<<<< HEAD
+=======
+        private System.Windows.Forms.Button btnListaConectados;
+>>>>>>> 6c07e1f8fc865ad0000d023dc0581b15d18521c4
         private System.Windows.Forms.PictureBox caballo1;
         private System.Windows.Forms.PictureBox caballo2;
         private System.Windows.Forms.PictureBox caballo3;
@@ -622,6 +719,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.PictureBox finish;
+<<<<<<< HEAD
         private System.Windows.Forms.TextBox TextBoxCaballoEligido;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -642,6 +740,8 @@
         private System.Windows.Forms.Button cerrarsesionBTN;
         private System.Windows.Forms.Button dueloBTN;
         private System.Windows.Forms.Button confirmarapuestaBTN;
+=======
+>>>>>>> 6c07e1f8fc865ad0000d023dc0581b15d18521c4
     }
 }
 
