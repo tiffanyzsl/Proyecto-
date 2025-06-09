@@ -69,10 +69,6 @@ C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeC
 C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
 C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
 C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
 C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
 C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
 C:\Users\grabc\Downloads\CarreraDeCaballosV2\CarreraDeCaballos\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
@@ -133,7 +129,6 @@ C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDe
 C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
 C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
 C:\Users\xpeca\Downloads\CarreraDeCaballos(5)\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
-<<<<<<< HEAD
 C:\Users\grabc\Downloads\CarreraDeCaballosV3\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
 C:\Users\grabc\Downloads\CarreraDeCaballosV3\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
 C:\Users\grabc\Downloads\CarreraDeCaballosV3\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
@@ -144,17 +139,3 @@ C:\Users\grabc\Downloads\CarreraDeCaballosV3\CarreraDeCaballos\clienteCarreraDeC
 C:\Users\grabc\Downloads\CarreraDeCaballosV3\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
 C:\Users\grabc\Downloads\CarreraDeCaballosV3\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
 C:\Users\grabc\Downloads\CarreraDeCaballosV3\CarreraDeCaballos\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
-C:\Users\xpeca\Downloads\CarreraDeCaballosV7\CarreraDeCaballosV4\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe.config
-C:\Users\xpeca\Downloads\CarreraDeCaballosV7\CarreraDeCaballosV4\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.exe
-C:\Users\xpeca\Downloads\CarreraDeCaballosV7\CarreraDeCaballosV4\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\bin\Debug\CarreraDeCaballosV1.pdb
-C:\Users\xpeca\Downloads\CarreraDeCaballosV7\CarreraDeCaballosV4\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.AssemblyReference.cache
-C:\Users\xpeca\Downloads\CarreraDeCaballosV7\CarreraDeCaballosV4\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Form1.resources
-C:\Users\xpeca\Downloads\CarreraDeCaballosV7\CarreraDeCaballosV4\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.Properties.Resources.resources
-C:\Users\xpeca\Downloads\CarreraDeCaballosV7\CarreraDeCaballosV4\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.GenerateResource.cache
-C:\Users\xpeca\Downloads\CarreraDeCaballosV7\CarreraDeCaballosV4\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.csproj.CoreCompileInputs.cache
-C:\Users\xpeca\Downloads\CarreraDeCaballosV7\CarreraDeCaballosV4\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.exe
-C:\Users\xpeca\Downloads\CarreraDeCaballosV7\CarreraDeCaballosV4\clienteCarreraDeCaballosV1\CarreraDeCaballosV1\obj\Debug\CarreraDeCaballosV1.pdb
-=======
-=======
->>>>>>> 6c07e1f8fc865ad0000d023dc0581b15d18521c4
->>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
