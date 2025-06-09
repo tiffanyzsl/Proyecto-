@@ -14,8 +14,11 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Globalization;
 using System.Threading.Tasks;
+<<<<<<< HEAD
 using System.Diagnostics.Eventing.Reader;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+=======
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
 
 
 namespace CarreraDeCaballosV1
@@ -23,10 +26,22 @@ namespace CarreraDeCaballosV1
     public partial class Form1 : Form
     {
         Socket server;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
         Thread atender;
         string rutaCaballo = Path.Combine(Application.StartupPath, "imagenes", "caballo.png");
         string rutaFinish = Path.Combine(Application.StartupPath, "imagenes", "finish.png");
         int caballoGanador;
+<<<<<<< HEAD
+=======
+=======
+        string rutaCaballo = Path.Combine(Application.StartupPath, "imagenes", "caballo.png");
+        string rutaFinish = Path.Combine(Application.StartupPath, "imagenes", "finish.png");
+
+>>>>>>> 6c07e1f8fc865ad0000d023dc0581b15d18521c4
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
 
         public Form1()
         {
@@ -40,6 +55,10 @@ namespace CarreraDeCaballosV1
             caballo2.Image = Image.FromFile(rutaCaballo);
             caballo3.Image = Image.FromFile(rutaCaballo);
             finish.Image = Image.FromFile(rutaFinish);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
 
 
         }
@@ -69,7 +88,10 @@ namespace CarreraDeCaballosV1
                             {
                                 MessageBox.Show(respuesta);
                                 puntosActualesLBL.Text = (trozos[2]);
+<<<<<<< HEAD
                                 labelidpartida.Text = (trozos[3]);
+=======
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
                             });
                             break;
                         case 2://Resupesta a Registrarse
@@ -122,6 +144,7 @@ namespace CarreraDeCaballosV1
                                 "\nBeneficio: " + beneficio);
                                 puntosActualesLBL.Text = (trozos[4]);
                             });
+<<<<<<< HEAD
                             break;
                         case 8:
                             this.Invoke((MethodInvoker)delegate
@@ -179,6 +202,26 @@ namespace CarreraDeCaballosV1
                                     MessageBox.Show(respuesta);
                                 }
 
+=======
+                            break;                        
+                        case 8: // Invitación a un jugador
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                var result = MessageBox.Show(
+                                    respuesta + "\n¿Quieres aceptar la invitación?",
+                                    "Invitación recibida",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Question);
+
+                                string mensajeRespuesta;
+                                if (result == DialogResult.Yes)
+                                    mensajeRespuesta = "9/aceptada";
+                                else
+                                    mensajeRespuesta = "9/rechazada";
+
+                                byte[] msgRespuesta = Encoding.ASCII.GetBytes(mensajeRespuesta);
+                                server.Send(msgRespuesta);
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
                             });
                             break;
                         case 10: // Mensaje de chat
@@ -193,10 +236,15 @@ namespace CarreraDeCaballosV1
                             this.Invoke((MethodInvoker)delegate
                             {
                                 caballoGanador = int.Parse(respuesta);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
                                 // Resetear posiciones de los caballos
                                 caballo1.Left = 0;
                                 caballo2.Left = 0;
                                 caballo3.Left = 0;
+<<<<<<< HEAD
                                 // Iniciar el timer
                                 timerCarrera.Start();
 
@@ -205,6 +253,12 @@ namespace CarreraDeCaballosV1
                                 double beneficio = Convert.ToDouble(trozos[4], CultureInfo.InvariantCulture);
                                 resultadoCarreraLBL.Text = ("Caballo ganador: " + caballoGanador + "\nResultado: " + resultado +
                                 "\nBeneficio: " + beneficio);
+=======
+
+                                // Iniciar el timer
+                                timerCarrera.Start();
+
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
                             });
                             break;
                     }
@@ -217,6 +271,11 @@ namespace CarreraDeCaballosV1
                     MessageBox.Show("Error en la conexión con el servidor:\n" + ex.Message);
                 });
             }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 6c07e1f8fc865ad0000d023dc0581b15d18521c4
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
 
         }
 
@@ -249,6 +308,7 @@ namespace CarreraDeCaballosV1
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             if (string.IsNullOrWhiteSpace(textBoxUsername.Text) || string.IsNullOrWhiteSpace(textBoxPassword.Text))
             {
                 MessageBox.Show("Por favor, rellena todos los campos.", "Campos vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -265,10 +325,18 @@ namespace CarreraDeCaballosV1
                 byte[] msg2 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
                 server.Send(msg2);
             }
+=======
+            string mensaje = "1/" + textBoxUsername.Text + "/" + textBoxPassword.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            this.BackColor = Color.Green; //Una vez conectado con exito el color de fondo pasa a verde
+            
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             if (string.IsNullOrWhiteSpace(textBoxUsername.Text) || string.IsNullOrWhiteSpace(textBoxPassword.Text) ||
             string.IsNullOrWhiteSpace(puntosBOX.Text) || string.IsNullOrWhiteSpace(textBoxEdad.Text))
             {
@@ -302,10 +370,20 @@ namespace CarreraDeCaballosV1
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
 
+=======
+<<<<<<< HEAD
+            string mensaje = "2/" + textBoxUsername.Text + "/" + textBoxPassword.Text + "/" + puntosBOX.Text + "/" + textBoxEdad.Text;
+=======
+            string mensaje = "2/"  + textBoxUsername.Text + "/" + textBoxPassword.Text + "/" + textBoxNombre.Text + "/" + textBoxEdad.Text ;
+>>>>>>> 6c07e1f8fc865ad0000d023dc0581b15d18521c4
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
         }
 
         private void btnDesconectarse_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
 
             this.BackColor = Color.White;
             MessageBox.Show("Te has desconectado del servidor.");
@@ -317,6 +395,11 @@ namespace CarreraDeCaballosV1
             puntosActualesLBL.Text = "";
             resultadoCarreraLBL.Text = "";
             labelidpartida.Text = "";
+=======
+
+            this.BackColor = Color.White;
+            MessageBox.Show("Te has desconectado del servidor.");
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
             //Close();
         }
 
@@ -352,7 +435,11 @@ namespace CarreraDeCaballosV1
 
         private void btnjugar_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             string mensaje = "7/" + TextBoxCaballoEligido.Text + "/" + TextBoxApuestaEligida.Text + "/" + textBoxUsername.Text;
+=======
+            string mensaje = "7/" + TextBoxCaballoEligido.Text + "/" + TextBoxApuestaEligida.Text;
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
             // Enviamos al servidor el nombre tecleado
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
@@ -398,7 +485,11 @@ namespace CarreraDeCaballosV1
             if (listBoxConectados.SelectedItem != null)
             {
                 string invitado = listBoxConectados.SelectedItem.ToString();
+<<<<<<< HEAD
                 string mensaje = "8/" + textBoxUsername.Text + "/" + invitado;
+=======
+                string mensaje = "8/" + invitado;
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
 
                 byte[] msg = Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
@@ -434,6 +525,7 @@ namespace CarreraDeCaballosV1
             server.Send(msg);
             this.BackColor = Color.YellowGreen; //Una vez conectado con exito el color de fondo pasa a amarillo
 
+<<<<<<< HEAD
             string mensaje2 = "6/";
             byte[] msg2 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
             server.Send(msg2);
@@ -441,6 +533,8 @@ namespace CarreraDeCaballosV1
             puntosActualesLBL.Text = "";
             resultadoCarreraLBL.Text = "";
             labelidpartida.Text = "";
+=======
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
         }
 
         private void dueloBTN_Click(object sender, EventArgs e)
@@ -449,6 +543,7 @@ namespace CarreraDeCaballosV1
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
 
+<<<<<<< HEAD
             //byte[] msg2 = new byte[512];
             //server.Receive(msg2);
             //string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
@@ -462,6 +557,21 @@ namespace CarreraDeCaballosV1
 
             //// Iniciar el timer
             //timerCarrera.Start();
+=======
+            byte[] msg2 = new byte[512];
+            server.Receive(msg2);
+            string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
+            int codigo = Convert.ToInt32(trozos[0]);
+            caballoGanador = int.Parse(trozos[1].Split('\0')[0]);
+
+            // Resetear posiciones de los caballos
+            caballo1.Left = 0;
+            caballo2.Left = 0;
+            caballo3.Left = 0;
+
+            // Iniciar el timer
+            timerCarrera.Start();
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
 
         }
 
@@ -471,8 +581,54 @@ namespace CarreraDeCaballosV1
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
 
+<<<<<<< HEAD
             MessageBox.Show("La apuesta se ha guardao correctamente");
         }
 
+=======
+        }
+
+        Random rnd = new Random();
+
+        private void btnjugar_Click(object sender, EventArgs e)
+        {
+            // Resetear posiciones de los caballos
+            caballo1.Left = 0;
+            caballo2.Left = 0;
+            caballo3.Left = 0;
+
+            // Iniciar el timer
+            timerCarrera.Start();
+        }
+
+        private void timerCarrera_Tick(object sender, EventArgs e)
+        {
+            // Mover los caballos con velocidad aleatoria
+            caballo1.Left += rnd.Next(5, 15);
+            caballo2.Left += rnd.Next(5, 15);
+            caballo3.Left += rnd.Next(5, 15);
+
+            int meta = finish.Left - caballo1.Width-23;
+
+            // Verificar si algún caballo ha llegado a la meta
+            if (caballo1.Left >= meta || caballo2.Left >= meta || caballo3.Left >= meta)
+            {
+                timerCarrera.Stop();
+
+                string ganador = "";
+
+                if (caballo1.Left >= meta)
+                    ganador = "Caballo 1";
+                else if (caballo2.Left >= meta)
+                    ganador = "Caballo 2";
+                else if (caballo3.Left >= meta)
+                    ganador = "Caballo 3";
+
+                MessageBox.Show($"¡El ganador es {ganador}!");
+            }
+        }
+
+   
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
     }
 }

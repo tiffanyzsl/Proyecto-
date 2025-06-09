@@ -34,10 +34,17 @@ BEFORE INSERT ON partidas
 FOR EACH ROW
 BEGIN
     DECLARE max_caballos INT;
+<<<<<<< HEAD
     SET max_caballos = NEW.numero_caballos;
 
     -- Asignar caballo_ganador aleatorio entre 1 y max_caballos
     SET NEW.caballo_ganador = FLOOR(1 + (RAND() * max_caballos));
+=======
+    SET max_caballos = 3;
+
+    -- Número aleatorio para limite_edad entre 10 y 99
+    SET NEW.limite_edad = FLOOR(10 + (RAND() * 90));
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
 
     -- Número aleatorio para duración entre 60 y 180 segundos
     SET NEW.duracion = FLOOR(60 + (RAND() * 121));
@@ -46,12 +53,21 @@ END$$
 DELIMITER ;
 
 INSERT INTO jugadores (username, password_p, puntos, edad) VALUES
+<<<<<<< HEAD
 ('kiko', 'klk', 500, 17),
 ('lola', 'lol', 1000, 20);
 
 INSERT INTO partidas (numero_caballos, limite_edad) VALUES (3, 18);
 INSERT INTO partidas (numero_caballos, limite_edad) VALUES (3, 21);
 INSERT INTO partidas (numero_caballos, limite_edad) VALUES (3, 16);
+=======
+('j', 'j', 500, 15),
+('l', 'l', 1000, 20);
+
+INSERT INTO partidas (caballo_ganador, numero_caballos) VALUES (1,3);
+INSERT INTO partidas (caballo_ganador, numero_caballos) VALUES (2,3);
+INSERT INTO partidas (caballo_ganador, numero_caballos) VALUES (3,3);
+>>>>>>> 9666fcfb15752ff560ceb4e5cd86d592c72f0d51
 
 
 
