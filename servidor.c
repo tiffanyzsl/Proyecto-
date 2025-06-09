@@ -11,6 +11,10 @@
 typedef struct {
 	char usuario[20];
 	int socket;
+	int id_partida;
+	int estado; // 0 si esta desconectado y 1 si esta conectado
+	char resultado_partida[20]; // WIN o LOSE
+	float beneficio_partida;
 }Conectado;
 
 typedef struct {
@@ -18,21 +22,35 @@ typedef struct {
 	int num;
 }ListaConectados;
 
+int i;
+int sockets[100];
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 ListaConectados miLista;
 
-int PonConectado (ListaConectados *lista, char usuario[20], int socket) {
-	//Devuelve -1 si la lista esta llena
-	//Devuelve 0 si ha podido a�adir el usuario a la lista
-	if (lista->num == 100)
-		return -1;
-	else {
-		strcpy (lista -> conectados [lista -> num].usuario, usuario);
-		lista -> conectados[lista -> num].socket = socket;
-		lista -> num++;
-		return 0;
-	}
+int PonConectado(ListaConectados *lista, char usuario[20], int socket, int id_partida) {
+    // Devuelve -1 si la lista está llena
+    // Devuelve 0 si ha podido añadir el usuario a la lista
+    if (lista->num == 100)
+        return -1;
+    else {
+        strcpy(lista->conectados[lista->num].usuario, usuario);
+        lista->conectados[lista->num].socket = socket;
+		lista->conectados[lista->num].estado = 1;      // Marcamos como conectado
+		lista->conectados[lista->num].id_partida = id_partida;
+        lista->num++;
+        return 0;
+    }
 }
+
+char* UsuarioDesdeSocket(ListaConectados *lista, int socket) { //Funcion para saber quien es el usuario actual
+    for (int i = 0; i < lista->num; i++) {
+        if (lista->conectados[i].socket == socket)
+            return lista->conectados[i].usuario;
+    }
+    return NULL; // No encontrado
+}
+
+
 
 int DamePosicion (ListaConectados *lista, char usuario[20]){
 	//Devuelve la posicion o -1 si no esta en la lista
@@ -43,9 +61,7 @@ int DamePosicion (ListaConectados *lista, char usuario[20]){
 		if (strcmp(lista->conectados[i].usuario,usuario) == 0)
 			encontrado = 1;
 		if (!encontrado)
-			pthread_mutex_lock(&mutex);
 			i = i+1;	
-			pthread_mutex_unlock(&mutex);
 	}
 	if (encontrado)
 		return i;
@@ -63,9 +79,9 @@ int Eliminar (ListaConectados *lista, char usuario[20]){
 		int i;
 		for (i = pos; i < lista->num-1; i++)
 		{
+			lista->conectados[pos].estado = 0;        // Marcamos como desconectado
 			lista -> conectados[i] = lista -> conectados[i+1];
-			//strcpy(lista->conectados[i].nombre, lista->conectados[i+1].nombre);
-			//lista->conectados[i].socket = lista->conectados[i+1].socket;
+
 		}
 		lista->num--;
 		return 0;
@@ -74,11 +90,382 @@ int Eliminar (ListaConectados *lista, char usuario[20]){
 
 void DameConectados (ListaConectados *lista, char conectados [300]){
 	//Pone en conectados los nombres de todos los conectados separados por /
-	sprintf(conectados, "%d", lista->num);
-	int i;
-	for (i=0; i< lista->num; i++)
-		sprintf(conectados, "%s/%s", conectados, lista->conectados[i].usuario);
+	sprintf(conectados, "6/%d", lista->num);
+	for (int i = 0; i < lista->num; i++) {
+        strcat(conectados, "/");
+        strcat(conectados, lista->conectados[i].usuario);
+    }
 }
+
+void ProcesarApuesta(MYSQL *conn, int id_jugador, int caballo_apostado, float apuesta, char resultado[200]) {
+    MYSQL_RES *res;
+    MYSQL_ROW row;
+    char query[512];
+    int id_partida;
+    int caballo_ganador;
+    float beneficio;
+    char gano[20];
+    int victorias = 0;
+    float puntos;
+
+    // Obtener id de la partida a partir del jugador
+    snprintf(query, sizeof(query), "SELECT id_partida FROM jugadores WHERE id_jugador = %d;", id_jugador);
+    if (mysql_query(conn, query)) {
+        fprintf(stderr, "Error al consultar id de la partida: %s\n", mysql_error(conn));
+        strcpy(resultado, "7/Error al consultar id de la partida.");
+        return;
+    }
+    res = mysql_store_result(conn);
+    if (res == NULL) {
+        fprintf(stderr, "Error al obtener resultado: %s\n", mysql_error(conn));
+        strcpy(resultado, "7/Error al obtener los datos.");
+        return;
+    }
+    row = mysql_fetch_row(res);
+    if (row == NULL) {
+        fprintf(stderr, "No se pudo obtener el id de la partida.\n");
+        strcpy(resultado, "7/No se encontró el id de la partida.");
+        mysql_free_result(res);
+        return;
+    }
+
+    id_partida = atoi(row[0]);
+    mysql_free_result(res);
+
+    // Obtener caballo ganador
+    snprintf(query, sizeof(query), "SELECT caballo_ganador FROM partidas WHERE id_partida = %d;", id_partida);
+    if (mysql_query(conn, query)) {
+        fprintf(stderr, "Error al consultar caballo ganador: %s\n", mysql_error(conn));
+        strcpy(resultado, "7/Error al consultar caballo ganador.");
+        return;
+    }
+    res = mysql_store_result(conn);
+    if (res == NULL) {
+        fprintf(stderr, "Error al obtener resultado: %s\n", mysql_error(conn));
+        strcpy(resultado, "7/Error al obtener datos del ganador.");
+        return;
+    }
+    row = mysql_fetch_row(res);
+    if (row == NULL) {
+        fprintf(stderr, "No se pudo obtener el caballo ganador.\n");
+        strcpy(resultado, "7/No se encontró caballo ganador.");
+        mysql_free_result(res);
+        return;
+    }
+
+    caballo_ganador = atoi(row[0]);
+    mysql_free_result(res);
+
+    // Obtener puntos del jugador
+    snprintf(query, sizeof(query), "SELECT puntos FROM jugadores WHERE id_jugador = %d;", id_jugador);
+    if (mysql_query(conn, query)) {
+        fprintf(stderr, "Error al consultar puntos del jugador: %s\n", mysql_error(conn));
+        strcpy(resultado, "7/Error al consultar puntos del jugador.");
+        return;
+    }
+    res = mysql_store_result(conn);
+    if (res == NULL) {
+        fprintf(stderr, "Error al obtener resultado de la consulta: %s\n", mysql_error(conn));
+        strcpy(resultado, "7/Error al obtener resultado.");
+        return;
+    }
+    row = mysql_fetch_row(res);
+    if (row == NULL || row[0] == NULL) {
+        fprintf(stderr, "No se encontró puntos para el jugador con id %d.\n", id_jugador);
+        strcpy(resultado, "7/No se encontró puntos del jugador.");
+        mysql_free_result(res);
+        return;
+    }
+
+    puntos = atof(row[0]);
+    mysql_free_result(res);
+
+    // Calcular si ganó
+    if (caballo_apostado == caballo_ganador) {
+        strcpy(gano, "WIN");
+        beneficio = apuesta * 2;
+        victorias = 1;
+		puntos= puntos + beneficio;
+    } else {
+        strcpy(gano, "LOSE");
+        beneficio = -apuesta;
+		puntos= puntos + beneficio;
+
+    }
+
+	//Actualiza los puntos del jugador
+	snprintf(query, sizeof(query),
+    	"UPDATE jugadores SET puntos = %.2f WHERE id_jugador = %d;", puntos, id_jugador);
+	if (mysql_query(conn, query)) {
+    	fprintf(stderr, "Error al actualizar puntos del jugador: %s\n", mysql_error(conn));
+    	strcpy(resultado, "7/Error al actualizar puntos del jugador.");
+    	return;
+	}
+
+
+    // Verificar existencia en historial
+    snprintf(query, sizeof(query), "SELECT COUNT(*) FROM historial WHERE id_jugador = %d;", id_jugador);
+    if (mysql_query(conn, query)) {
+        fprintf(stderr, "Error al consultar existencia en historial: %s\n", mysql_error(conn));
+        strcpy(resultado, "7/Error al consultar historial.");
+        return;
+    }
+
+    res = mysql_store_result(conn);
+    row = mysql_fetch_row(res);
+    int existe = atoi(row[0]);
+    mysql_free_result(res);
+
+    // Si no existe, lo insertamos
+    if (existe == 0) {
+        snprintf(query, sizeof(query),
+            "INSERT INTO historial (id_jugador, partidas_jugadas, partidas_ganadas, beneficio_total) VALUES (%d, 1, %d, %.2f);", id_jugador, victorias, puntos);
+    } else {
+        // Si ya existe, lo actualizamos
+        snprintf(query, sizeof(query),
+            "UPDATE historial SET partidas_jugadas = partidas_jugadas + 1, "
+            "partidas_ganadas = partidas_ganadas + %d, "
+            "beneficio_total =  %.2f "
+            "WHERE id_jugador = %d;", victorias, puntos, id_jugador);
+    }
+
+    if (mysql_query(conn, query)) {
+        fprintf(stderr, "Error al insertar/actualizar historial: %s\n", mysql_error(conn));
+        strcpy(resultado, "7/Error al insertar/actualizar historial.");
+        return;
+    }
+
+    // Consultar beneficio actualizado
+    snprintf(query, sizeof(query), "SELECT beneficio_total FROM historial WHERE id_jugador = %d;", id_jugador);
+    if (mysql_query(conn, query)) {
+        fprintf(stderr, "Error al consultar beneficio: %s\n", mysql_error(conn));
+        strcpy(resultado, "7/Error al consultar beneficio.");
+        return;
+    }
+
+    res = mysql_store_result(conn);
+    if (res == NULL) {
+        fprintf(stderr, "Error al obtener resultado del beneficio: %s\n", mysql_error(conn));
+        strcpy(resultado, "7/Error al obtener beneficio.");
+        return;
+    }
+
+    row = mysql_fetch_row(res);
+    if (row == NULL) {
+        fprintf(stderr, "No se encontró beneficio del jugador.\n");
+        strcpy(resultado, "7/Beneficio no disponible.");
+        mysql_free_result(res);
+        return;
+    }
+
+    float puntos_actuales = atof(row[0]);
+    mysql_free_result(res);
+
+    // Enviar respuesta al cliente
+    sprintf(resultado, "%d/%s/%.2f/%.2f", caballo_ganador, gano, beneficio, puntos_actuales);
+    printf("Mensaje enviado al cliente: %s\n", resultado);
+
+	int nuevo_caballo_ganador = (rand() % 3) + 1;
+
+	//Actualiza el caballo ganador
+	snprintf(query, sizeof(query),
+    	"UPDATE partidas SET caballo_ganador = %d WHERE id_partida = %d;", nuevo_caballo_ganador, id_partida);
+	if (mysql_query(conn, query)) {
+    	fprintf(stderr, "Error al actualizar el caballo ganador: %s\n", mysql_error(conn));
+    	strcpy(resultado, "7/Error al actualizar el caballo ganador.");
+    	return;
+	}
+}
+void ProcesarApuestasEnPartida(ListaConectados *lista, MYSQL *conn, const char *username, int *caballo_ganador) {
+    MYSQL_RES *res;
+    MYSQL_ROW row;
+    char query[512];
+    int id_partida;
+    char resultado_partida[20];
+
+    // 1️ Obtener id_partida del jugador por su username
+    snprintf(query, sizeof(query),
+             "SELECT id_partida FROM jugadores WHERE username = '%s';", username);
+    if (mysql_query(conn, query)) {
+        fprintf(stderr, "Error al obtener id_partida: %s\n", mysql_error(conn));
+        return;
+    }
+
+    res = mysql_store_result(conn);
+    if ((row = mysql_fetch_row(res)) == NULL) {
+        mysql_free_result(res);
+        return;
+    }
+    id_partida = atoi(row[0]);
+    mysql_free_result(res);
+
+    // 2️ Obtener caballo_ganador de la partida
+    snprintf(query, sizeof(query),
+             "SELECT caballo_ganador FROM partidas WHERE id_partida = %d;", id_partida);
+    if (mysql_query(conn, query)) {
+        fprintf(stderr, "Error al obtener caballo ganador: %s\n", mysql_error(conn));
+        return;
+    }
+
+    res = mysql_store_result(conn);
+    if ((row = mysql_fetch_row(res)) == NULL) {
+        mysql_free_result(res);
+        return;
+    }
+    *caballo_ganador = atoi(row[0]);
+    mysql_free_result(res);
+
+    // 3️ Obtener todos los jugadores de la partida
+    snprintf(query, sizeof(query),
+             "SELECT id_jugador, username, apuesta, caballo_elegido, puntos "
+             "FROM jugadores WHERE id_partida = %d;", id_partida);
+    if (mysql_query(conn, query)) {
+        fprintf(stderr, "Error al obtener jugadores: %s\n", mysql_error(conn));
+        return;
+    }
+
+    res = mysql_store_result(conn);
+    int num_jugadores = mysql_num_rows(res);
+    if (num_jugadores < 2) {
+        mysql_free_result(res);
+        return;
+    }
+
+    // Guardar jugadores en arrays temporales
+    int id_jugadores[num_jugadores];
+    char usernames[num_jugadores][20];
+    float apuestas[num_jugadores];
+    int caballos[num_jugadores];
+    float puntos[num_jugadores];
+    int victorias[num_jugadores];
+	float beneficio_neto[num_jugadores];
+
+    int i = 0;
+    while ((row = mysql_fetch_row(res))) {
+        id_jugadores[i] = atoi(row[0]);
+        strncpy(usernames[i], row[1], sizeof(usernames[i])-1);
+        usernames[i][sizeof(usernames[i])-1] = '\0';  // Por seguridad
+        apuestas[i] = atof(row[2]);
+        caballos[i] = atoi(row[3]);
+        puntos[i] = atof(row[4]);
+        victorias[i] = 0;
+        i++;
+    }
+    mysql_free_result(res);
+
+    // 4️ Procesar apuestas de forma individual
+    float total_apostado = 0.0;
+    int num_ganadores = 0;
+	
+
+    // Suma total apostado y cuenta ganadores
+    for (i = 0; i < num_jugadores; i++) {
+        total_apostado += apuestas[i];
+        if (caballos[i] == *caballo_ganador) {
+            num_ganadores++;
+        }
+    }
+
+    // 5️ Repartir beneficios/pérdidas
+    if (num_ganadores > 0) {
+        float bote_ganadores = total_apostado / num_ganadores;
+        for (i = 0; i < num_jugadores; i++) {
+            if (caballos[i] == *caballo_ganador) {
+                puntos[i] += bote_ganadores;  // Gana el bote compartido
+                victorias[i]++;
+				beneficio_neto[i] = apuestas[i];  //Guarda el beneficio
+            } else {
+                puntos[i] -= apuestas[i];  // Pierde su apuesta
+				beneficio_neto[i] = -apuestas[i];
+            }
+        }
+    } else {
+        // Nadie acertó: todos pierden su apuesta
+        for (i = 0; i < num_jugadores; i++) {
+            puntos[i] -= apuestas[i];
+			beneficio_neto[i] = -apuestas[i];
+        }
+    }
+
+    // 6️ Actualizar historial y lista de conectados
+    for (i = 0; i < num_jugadores; i++) {
+        int id_jugador_actual = id_jugadores[i];
+        float puntos_actual = puntos[i];
+        int victorias_actual = victorias[i];
+
+        if (victorias_actual > 0)
+            strcpy(resultado_partida, "WIN");
+        else
+            strcpy(resultado_partida, "LOSE");
+
+        // Actualizar lista de conectados
+        for (int k = 0; k < lista->num; k++) {
+            if (lista->conectados[k].estado == 1 && lista->conectados[k].id_partida == id_partida) {
+                if (strcmp(lista->conectados[k].usuario, usernames[i]) == 0) {
+                    strcpy(lista->conectados[k].resultado_partida, resultado_partida);
+                    lista->conectados[k].beneficio_partida = beneficio_neto[i];
+                }
+            }
+        }
+
+        // Verificar si el jugador tiene historial
+        snprintf(query, sizeof(query),
+                 "SELECT COUNT(*) FROM historial WHERE id_jugador = %d;", id_jugador_actual);
+        if (mysql_query(conn, query)) {
+            fprintf(stderr, "Error al consultar historial: %s\n", mysql_error(conn));
+            return;
+        }
+
+        res = mysql_store_result(conn);
+        row = mysql_fetch_row(res);
+        int existe = atoi(row[0]);
+        mysql_free_result(res);
+
+        // Insertar o actualizar historial
+        if (existe == 0) {
+            snprintf(query, sizeof(query),
+                     "INSERT INTO historial (id_jugador, partidas_jugadas, partidas_ganadas, beneficio_total) "
+                     "VALUES (%d, 1, %d, %.2f);",
+                     id_jugador_actual, victorias_actual, puntos_actual);
+        } else {
+            snprintf(query, sizeof(query),
+                     "UPDATE historial "
+                     "SET partidas_jugadas = partidas_jugadas + 1, "
+                     "partidas_ganadas = partidas_ganadas + %d, "
+                     "beneficio_total = beneficio_total + %.2f "
+                     "WHERE id_jugador = %d;",
+                     victorias_actual, beneficio_neto[i], id_jugador_actual);
+        }
+
+        if (mysql_query(conn, query)) {
+            fprintf(stderr, "Error al actualizar historial: %s\n", mysql_error(conn));
+            return;
+        }
+    }
+
+    // 7️ Actualizar puntos finales en la base de datos
+    for (i = 0; i < num_jugadores; i++) {
+        snprintf(query, sizeof(query),
+                 "UPDATE jugadores SET puntos = %.2f WHERE id_jugador = %d;",
+                 puntos[i], id_jugadores[i]);
+        if (mysql_query(conn, query)) {
+            fprintf(stderr, "Error al actualizar puntos: %s\n", mysql_error(conn));
+        }
+    }
+
+	int nuevo_caballo_ganador = (rand() % 3) + 1;
+
+	//Actualiza el caballo ganador
+	snprintf(query, sizeof(query),
+    	"UPDATE partidas SET caballo_ganador = %d WHERE id_partida = %d;", nuevo_caballo_ganador, id_partida);
+	if (mysql_query(conn, query)) {
+    	fprintf(stderr, "Error al actualizar el caballo ganador: %s\n", mysql_error(conn));
+    	return;
+	}
+}
+
+
+
 
 void *AtenderCliente (void *socket)
 { 
@@ -89,31 +476,30 @@ void *AtenderCliente (void *socket)
 	sock_conn = *s;
 	char peticion[512];
 	char respuesta[512];
-	MYSQL *conn;
-	int err;
 	char consulta[256];
 	char insertar[256];
+	char ubdate[256];
+	MYSQL *conn;
+	int err;
 	MYSQL_RES *resultado;
 	MYSQL_ROW row;
+	
 	conn = mysql_init(NULL);
 	if (conn == NULL) {
 		printf("Error al crear conexion: %u %s\n", mysql_errno(conn), mysql_error(conn));
 		exit(1);
 	}
 	
-	conn = mysql_real_connect(conn, "localhost", "root", "mysql", "carrera_caballos", 0 , NULL, 0);
+	conn = mysql_real_connect(conn, "shiva2.upc.es", "root", "mysql", "T5_BDCarreraDeCaballos", 0 , NULL, 0);
 	if (conn == NULL) {
 		printf("Error al inicializar la conexion: %u %s\n", mysql_errno(conn), mysql_error(conn));
 		exit(1);
 	}
-	
-	err = mysql_query(conn, "USE carrera_caballos;");
+	err = mysql_query(conn, "USE T5_BDCarreraDeCaballos;");
 	if (err != 0) {
 		printf("Error al seleccionar la base de datos: %u %s\n", mysql_errno(conn), mysql_error(conn));
 		exit(1);
 	}
-	
-		
 		int terminar = 0;
 		while (!terminar)
 		{
@@ -124,7 +510,7 @@ void *AtenderCliente (void *socket)
 			
 			char username[20];
 			char password[40];
-			char nombre[40];
+			float puntos;
 			int edad;
 			int id_jugador;
 			char *p = strtok(peticion, "/");
@@ -141,22 +527,36 @@ void *AtenderCliente (void *socket)
 				p = strtok(NULL, "/");
 				if (p != NULL) strcpy(password, p);
 				p = strtok(NULL, "/");
-				if (p != NULL) strcpy(nombre, p);
+				if (p != NULL) 
+					puntos = atof(p);
 				p = strtok(NULL, "/");
 				if (p != NULL) 
 					edad = atoi(p);  
 				
-				printf("Codigo: %d, username: %s, password_p: %s, nombre: %s, edad: %d\n", codigo, username, password, nombre, edad);
+				printf("Codigo: %d, username: %s, password_p: %s, puntos: %.2f, edad: %d\n", codigo, username, password, puntos, edad);
 			}
 			
 			if (codigo == 0) {
+				pthread_mutex_lock(&mutex);
 				Eliminar(&miLista, username);
-				printf("Usuario desconectado: %s\n", username);
-				break;
-				terminar = 1;
-				//INICIAR SESION
-			} else if (codigo == 1) {
-				sprintf(consulta, "SELECT username, password_p FROM jugadores WHERE username =  '%s' AND password_p =  '%s'",username,password);
+				pthread_mutex_unlock(&mutex);
+				printf("0/Usuario desconectado: %s\n", username);
+				snprintf(consulta, sizeof(consulta), 
+					"UPDATE jugadores SET id_partida = NULL, caballo_elegido = NULL, apuesta = NULL WHERE username = '%s';", 
+					username);
+				if (mysql_query(conn, consulta)) {
+					printf("Error al actualizar id_partida: %s\n", mysql_error(conn));
+				}
+				sprintf(respuesta, "0/Usuario desconectado: %s\n", username);
+				send(sock_conn, respuesta, strlen(respuesta), 0);
+			} 
+
+			else if (codigo == 1) {  //INICIAR SESION
+				int id_partida;
+				int usuario_correcto = 0;
+				char username_confirmado[50] = "";
+
+				sprintf(consulta, "SELECT username, password_p FROM jugadores WHERE username =  '%s' AND password_p =  '%s'", username, password);
 				printf("Consulta SQL: %s\n", consulta);
 				err = mysql_query(conn, consulta);
 				if (err != 0) {
@@ -165,51 +565,134 @@ void *AtenderCliente (void *socket)
 				}
 				resultado = mysql_store_result(conn);
 				row = mysql_fetch_row(resultado);
-				if (resultado == NULL) {
-					printf("Error al obtener el resultado: %s\n", mysql_error(conn));
-					exit(1);
-				} else {
-					int num_rows = mysql_num_rows(resultado);
-					printf("Numero de filas devueltas: %d\n", num_rows);
+				if (row != NULL) {
+					usuario_correcto = 1;
+					strcpy(username_confirmado, row[0]);
 				}
-				
-				if (row == NULL) {
-					sprintf(respuesta,"El usuario y/o la contrase�a�no son correctos\n");
+				mysql_free_result(resultado);
+
+				float ben = 0.0;
+				if (usuario_correcto) {
+					// Obtener puntos
+					sprintf(consulta, "SELECT puntos FROM jugadores WHERE username = '%s'", username);
+					err = mysql_query(conn, consulta);
+					if (err == 0) {
+						MYSQL_RES *res_ben = mysql_store_result(conn);
+						MYSQL_ROW row_ben = mysql_fetch_row(res_ben);
+						if (row_ben && row_ben[0]) {
+							ben = atof(row_ben[0]);
+						}
+						mysql_free_result(res_ben);
+					}
+
+					// Obtener edad
+					snprintf(consulta, sizeof(consulta),
+							"SELECT edad FROM jugadores WHERE username = '%s';", username);
+					if (mysql_query(conn, consulta)) {
+						printf("Error al consultar edad: %s\n", mysql_error(conn));
+					}
+					resultado = mysql_store_result(conn);
+					row = mysql_fetch_row(resultado);
+					if (row) {
+						int edad_jugador = atoi(row[0]);
+						mysql_free_result(resultado);
+
+						// Obtener partidas válidas
+						snprintf(consulta, sizeof(consulta),
+								"SELECT id_partida FROM partidas WHERE limite_edad <= %d;", edad_jugador);
+						if (mysql_query(conn, consulta)) {
+							printf("Error al obtener partidas válidas: %s\n", mysql_error(conn));
+						}
+						resultado = mysql_store_result(conn);
+
+						int num_partidas = mysql_num_rows(resultado);
+						if (num_partidas == 0) {
+							printf("No hay partidas válidas para el jugador.\n");
+						} else {
+							int partidas[num_partidas];
+							int i = 0;
+							while ((row = mysql_fetch_row(resultado))) {
+								partidas[i] = atoi(row[0]);
+								i++;
+							}
+							mysql_free_result(resultado);
+
+							// Elegir aleatoria
+							int random_index = rand() % num_partidas;
+							id_partida = partidas[random_index];
+
+							// Asignar la partida
+							snprintf(consulta, sizeof(consulta),
+									"UPDATE jugadores SET id_partida = %d WHERE username = '%s';",
+									id_partida, username);
+							if (mysql_query(conn, consulta)) {
+								printf("Error al actualizar id_partida: %s\n", mysql_error(conn));
+							}
+						}
+					} else {
+						printf("No se encontró la edad del jugador.\n");
+						mysql_free_result(resultado);
+					}
+				}
+
+				// Mutex y conectar
+				pthread_mutex_lock(&mutex);
+				PonConectado(&miLista, username, sock_conn, id_partida);
+				pthread_mutex_unlock(&mutex);
+
+				if (!usuario_correcto) {
+					sprintf(respuesta, "1/El usuario y/o la contraseña no son correctos\n");
 				} else {
-					sprintf(respuesta,"Se ha iniciado sesion correctamente, bienvenido %s\n", row[0]);
+					sprintf(respuesta, "1/Se ha iniciado sesion correctamente, bienvenido %s/%.2f/%d\n", username_confirmado, ben, id_partida);
 				}
 				printf("%s", respuesta);
 				send(sock_conn, respuesta, strlen(respuesta), 0);
-				PonConectado(&miLista, username, sock_conn);
 				printf("Usuario conectado: %s\n", username);
-				//Registar
-			} else if (codigo == 2) {
-				sprintf(insertar, "INSERT INTO jugadores ( username, password_p, nombre, edad, id_partida) VALUES ('%s', '%s', '%s', %d, NULL);", 
-						username, password, nombre, edad);		
+			}
+
+ 			else if (codigo == 2) { //Registrarse
+				sprintf(insertar, "INSERT INTO jugadores ( username, password_p, puntos, edad, id_partida) VALUES ('%s', '%s', '%.2f','%d',NULL);",
+						username, password, puntos, edad);		
 				printf("Consulta SQL para insertar: %s\n", insertar);
 				err = mysql_query(conn, insertar);
 				if (err != 0) {
 					printf("Error MySQL: %u - %s\n", mysql_errno(conn), mysql_error(conn));
-					sprintf(respuesta, "Error al insertar datos en la base: %u %s\n", mysql_errno(conn), mysql_error(conn));
+					sprintf(respuesta, "2/Error al insertar datos en la base: %u %s\n", mysql_errno(conn), mysql_error(conn));
 					exit(1);
 				}
 				else{
 					if (mysql_affected_rows(conn) > 0) {
-						sprintf(respuesta, "Usuario registrado correctamente: %s\n", username);
+						sprintf(respuesta, "2/Usuario registrado correctamente: %s\n Ya puedes iniciar la sesion", username);
 					} else {
-						sprintf(respuesta, "No se pudo registrar el usuario.\n");
+						sprintf(respuesta, "2/No se pudo registrar el usuario.\n");
 					}
 				}
-				
 				send(sock_conn, respuesta, strlen(respuesta), 0);
 			} //Consulta el historial 
+			
 			else if(codigo==3){
-				char id_jugador[20];
+				char usuario[20];
+				int id_jugador;
 				char *c = strtok(NULL, "/");
-				strcpy(id_jugador,c);
-				printf("ID del jugador extraído: %s\n", id_jugador);  // Verifica el ID extraído
-				printf("Dame el ID del usuario que quieres consultar su historial\n");
-				sprintf (consulta,"SELECT * FROM historial WHERE id_jugador = '%s'", id_jugador);
+				strcpy(usuario,c);
+				printf("Usuario del jugador extraido: %s\n", usuario);  // Verifica el usuario extraido
+				printf("Dame el nombre de usuario que quieres consultar su historial\n");
+				sprintf(consulta, "SELECT id_jugador FROM jugadores WHERE username = '%s'", usuario);
+				err = mysql_query(conn, consulta); 
+				if (err != 0) {
+					printf( "Error al consultar datos de la base: %u %s\n", mysql_errno(conn), mysql_error(conn));
+					exit(1);
+				}
+				resultado = mysql_store_result(conn);
+				if ((row = mysql_fetch_row(resultado)) != NULL)
+				{
+					id_jugador = atoi(row[0]);
+				} else {
+					int num_rows = mysql_num_rows(resultado);
+					printf("Numero de filas devueltas: %d\n", num_rows);
+				}
+				mysql_free_result(resultado);
+				sprintf (consulta,"SELECT * FROM historial WHERE id_jugador = '%d'", id_jugador);
 				printf("Consulta generada: %s\n", consulta); 
 				err = mysql_query(conn, consulta);
 				if (err != 0) {
@@ -217,23 +700,29 @@ void *AtenderCliente (void *socket)
 					exit(1);
 				}
 				resultado = mysql_store_result(conn);
+				if (resultado == NULL) {
+					printf("Error al obtener el resultado: %s\n", mysql_error(conn));
+					exit(1);
+				} else {
+					int num_rows = mysql_num_rows(resultado);
+					printf("Numero de filas devueltas: %d\n", num_rows);
+				}
 				row = mysql_fetch_row(resultado);
 				
 				if (row == NULL) {
-					sprintf(respuesta, "No se han obtenido datos\n");
+					sprintf(respuesta, "3/No se han obtenido datos\n");
 				} else {
-					sprintf(respuesta, "Partidas jugadas: %s, Partidas ganadas: %s, Beneficio total: %s, id_jugador: %s", row[0], row[1], row[2],row[3]);
+					sprintf(respuesta, "3/Partidas jugadas: %s, Partidas ganadas: %s, Beneficio total: %s, id_jugador: %s", row[0], row[1], row[2],row[3]);
 				}
-				printf("%s", respuesta);
+				printf("3/%s", respuesta);
 				send(sock_conn, respuesta, strlen(respuesta), 0);
-			}//Consulta la duracion de partida 
-			else if (codigo == 4) {
+			}
+			else if (codigo == 4) { //Consulta la duracion de la partida
 				char id_partida[80];
 				char *c = strtok(NULL, "/");
 				strcpy (id_partida,c);
 				printf("ID de partida recibido: %s\n", id_partida);
 				
-				//printf("Dime el id de la partidas que quieres buscar: ");
 				sprintf(consulta, "SELECT duracion FROM partidas WHERE id_partida = '%d'", atoi (id_partida));
 				printf("Consulta ejecutada: [%s]\n", consulta);
 				err = mysql_query(conn, consulta);
@@ -243,19 +732,23 @@ void *AtenderCliente (void *socket)
 					exit(1);
 				}
 				resultado = mysql_store_result(conn);
-				int num_rows = mysql_num_rows(resultado);
-				printf("Numero de filas obtenidas: %d\n", num_rows);
-				
-				if (num_rows > 0) {
+				if (resultado == NULL) {
+					printf("Error al obtener el resultado: %s\n", mysql_error(conn));
+					exit(1);
+				} else {
+					int num_rows = mysql_num_rows(resultado);
+					printf("Numero de filas devueltas: %d\n", num_rows);
+					if (num_rows > 0) {
 					row = mysql_fetch_row(resultado);
 					if (row) {
 						printf("Duracion de la partida obtenida: %s\n", row[0]);
-						sprintf(respuesta, "Duracion de la partida: %s\n", row[0]);
+						sprintf(respuesta, "4/Duracion de la partida: %s\n", row[0]);
 					} else {
 						printf("Error al obtener la fila.\n");
 					}
+					printf("4/%s", respuesta);
 				}
-				printf("%s", respuesta);
+				}
 				send(sock_conn, respuesta, strlen(respuesta), 0);
 			}//Consulta limite de edad
 			else if (codigo == 5) {
@@ -270,34 +763,401 @@ void *AtenderCliente (void *socket)
 					exit(1);
 				}
 				resultado = mysql_store_result(conn);
-				int num_rows = mysql_num_rows(resultado);
-				printf("Numero de filas obtenidas: %d\n", num_rows);
-				
-				if (num_rows > 0) {
-					row = mysql_fetch_row(resultado);
-					if (row) {
-						printf("Limite de edad: %s\n", row[0]);
-						sprintf(respuesta, "Limite de edad: %s\n", row[0]);
-					} else {
-						printf("Error al obtener la fila.\n");
+				if (resultado == NULL) {
+					printf("Error al obtener el resultado: %s\n", mysql_error(conn));
+					exit(1);
+				} else {
+					int num_rows = mysql_num_rows(resultado);
+					printf("Numero de filas devueltas: %d\n", num_rows);
+					if (num_rows > 0) {
+						row = mysql_fetch_row(resultado);
+						if (row) {
+							printf("Duracion de la partida obtenida: %s\n", row[0]);
+							sprintf(respuesta, "5/Duracion de la partida: %s\n", row[0]);
+						} else {
+							printf("Error al obtener la fila.\n");
+						}
+						printf("5/%s", respuesta);
 					}
 				}
-				printf("%s", respuesta);
+				printf("5/%s", respuesta);
 				send(sock_conn, respuesta, strlen(respuesta), 0);
 			}
-			else if (codigo == 6) {  // Cliente pide la lista de usuarios conectados
+			else if (codigo == 6) {  //Notificacion lista conectados
 				char conectados[300];
+				pthread_mutex_lock(&mutex);
 				DameConectados(&miLista, conectados);
-				send(sock_conn, conectados, strlen(conectados), 0);
+				for (int k = 0; k < miLista.num; k++) {
+					if (miLista.conectados[k].estado == 1){
+						send(miLista.conectados[k].socket, conectados, strlen(conectados), 0);
+					}
+				}
+				pthread_mutex_unlock(&mutex);
+				
+			}
+			else if (codigo == 7) {  // Código para procesar la apuesta
+				int caballo_apostado = -1;
+				float apuesta = -1.0;
+				char usuario[20];
+				p = strtok(NULL, "/");
+				if (p != NULL) caballo_apostado = atoi(p);
+				p = strtok(NULL, "/");
+				if (p != NULL) apuesta = atof(p);
+				p = strtok(NULL, "/"); 
+				if (p != NULL) strcpy(usuario, p);
+
+				// Validar entrada
+				if (caballo_apostado < 1 || apuesta <= 0) {
+					char error[] = "7/Error: datos de apuesta inválidos.";
+					send(sock_conn, error, strlen(error), 0);
+					
+				}
+
+				printf("Apuesta recibida: caballo %d, apuesta %.2f\n", caballo_apostado, apuesta);
+
+				snprintf(consulta, sizeof(consulta), 
+					"UPDATE jugadores SET caballo_elegido = %d, apuesta = %.2f WHERE username = '%s';", 
+					caballo_apostado, apuesta, usuario);
+
+				if (mysql_query(conn, consulta)) {
+					printf("Error al actualizar apuesta: %s\n", mysql_error(conn));
+				}
+
+				char respuesta_aux[200];
+				char respuesta[250];
+				int id_jugador = -1;
+
+				if (usuario != NULL) {
+					// Buscar ID del jugador en la base de datos
+					char consulta[256];
+					sprintf(consulta, "SELECT id_jugador FROM jugadores WHERE username = '%s'", usuario);
+
+					pthread_mutex_lock(&mutex);  // Protege el acceso a la BD
+					int err = mysql_query(conn, consulta);
+					if (!err) {
+						MYSQL_RES *res = mysql_store_result(conn);
+						if (res != NULL) {
+							MYSQL_ROW row = mysql_fetch_row(res);
+							if (row != NULL) {
+								id_jugador = atoi(row[0]);
+							} else {
+								fprintf(stderr, "Usuario no encontrado en la base de datos.\n");
+							}
+							mysql_free_result(res);
+						} else {
+							fprintf(stderr, "Error al obtener resultado de ID: %s\n", mysql_error(conn));
+						}
+					} else {
+						fprintf(stderr, "Error en la consulta SQL de ID: %s\n", mysql_error(conn));
+					}
+
+					// Si se obtuvo el ID del jugador, procesar apuesta
+					if (id_jugador != -1) {
+						ProcesarApuesta(conn, id_jugador, caballo_apostado, apuesta, respuesta_aux);
+						sprintf(respuesta,"7/%s",respuesta_aux);
+						send(sock_conn, respuesta, strlen(respuesta), 0);
+					} else {
+						char error[] = "7/Error al obtener ID del jugador.";
+						send(sock_conn, error, strlen(error), 0);
+					}
+
+					pthread_mutex_unlock(&mutex);
+				} else {
+					char error[] = "7/Error al identificar usuario desde socket.";
+					send(sock_conn, error, strlen(error), 0);
+				}
+			}
+
+			else if (codigo == 8) { // Código para invitar a otro usuario
+				char usuario_invitador[50];
+				char usuario_invitado[50];
+				p = strtok(NULL, "/");
+				if (p != NULL) strcpy(usuario_invitador, p);
+				p = strtok(NULL, "/");
+				if (p != NULL) strcpy(usuario_invitado, p);
+
+				int socket_invitador = -1;
+				pthread_mutex_lock(&mutex);
+				for (int i = 0; i < miLista.num; i++) {
+					if (strcmp(miLista.conectados[i].usuario, usuario_invitador) == 0) {
+						socket_invitador = miLista.conectados[i].socket;
+						break;
+					}
+				}
+				pthread_mutex_unlock(&mutex);
+
+				int socket_invitado = -1;
+				pthread_mutex_lock(&mutex);
+				for (int i = 0; i < miLista.num; i++) {
+					if (strcmp(miLista.conectados[i].usuario, usuario_invitado) == 0) {
+						socket_invitado = miLista.conectados[i].socket;
+						break;
+					}
+				}
+				pthread_mutex_unlock(&mutex);
+
+				if (socket_invitado != -1 && socket_invitador != -1) {
+					char consulta[256];
+					// 1. Obtener id_partida del invitador
+					sprintf(consulta, "SELECT id_partida FROM jugadores WHERE username = '%s'", usuario_invitador);
+					err = mysql_query(conn, consulta);
+					if (err != 0) {
+						printf("Error al consultar la partida del invitador: %u %s\n", mysql_errno(conn), mysql_error(conn));
+						sprintf(respuesta, "8/Error al obtener la partida del invitador\n");
+					} else {
+						resultado = mysql_store_result(conn);
+						if (resultado != NULL && mysql_num_rows(resultado) > 0) {
+							row = mysql_fetch_row(resultado);
+							int id_partida = atoi(row[0]);
+							mysql_free_result(resultado);
+
+							// 2. Obtener el limite_edad de la partida
+							sprintf(consulta, "SELECT limite_edad FROM partidas WHERE id_partida = %d", id_partida);
+							err = mysql_query(conn, consulta);
+							if (err != 0) {
+								printf("Error al consultar limite_edad: %u %s\n", mysql_errno(conn), mysql_error(conn));
+								sprintf(respuesta, "8/Error al obtener el limite de edad de la partida\n");
+							} else {
+								resultado = mysql_store_result(conn);
+								if (resultado != NULL && mysql_num_rows(resultado) > 0) {
+									row = mysql_fetch_row(resultado);
+									int limite_edad = atoi(row[0]);
+									mysql_free_result(resultado);
+
+									// 3. Obtener la edad del usuario invitado
+									sprintf(consulta, "SELECT edad FROM jugadores WHERE username = '%s'", usuario_invitado);
+									err = mysql_query(conn, consulta);
+									if (err != 0) {
+										printf("Error al consultar edad del invitado: %u %s\n", mysql_errno(conn), mysql_error(conn));
+										sprintf(respuesta, "8/Error al obtener la edad del usuario invitado\n");
+									} else {
+										resultado = mysql_store_result(conn);
+										if (resultado != NULL && mysql_num_rows(resultado) > 0) {
+											row = mysql_fetch_row(resultado);
+											int edad_invitado = atoi(row[0]);
+											mysql_free_result(resultado);
+
+											// 4. Verificar la edad del invitado contra el límite de edad de la partida
+											if (edad_invitado >= limite_edad) {
+													// 5. Enviar notificaciones
+													char mensaje[256];
+													sprintf(mensaje, "8/El usuario %s te ha invitado a la partida %d/%s/%s/%d\n", usuario_invitador, id_partida, usuario_invitador,usuario_invitado, id_partida);
+													printf("El usuario: %s puede jugar en la parida invitada. %s", usuario_invitado, mensaje);
+													send(socket_invitado, mensaje, strlen(mensaje), 0);
+
+													sprintf(respuesta, "8/Invitacion enviada a %s\n", usuario_invitado);
+													send(socket_invitador, respuesta, strlen(respuesta), 0);
+												
+											} else {
+												sprintf(respuesta, "8/El usuario %s no cumple con la edad minima para unirse a esta partida\n", usuario_invitado);
+												send(socket_invitador, respuesta, strlen(respuesta), 0);
+											}
+										} else {
+											sprintf(respuesta, "8/No se pudo obtener la edad del usuario invitado\n");
+											send(socket_invitador, respuesta, strlen(respuesta), 0);
+										}
+									}
+								} else {
+									sprintf(respuesta, "8/No se encontró la partida\n");
+									send(socket_invitador, respuesta, strlen(respuesta), 0);
+								}
+							}
+						} else {
+							sprintf(respuesta, "8/No se encontró la partida del invitador\n");
+							send(socket_invitador, respuesta, strlen(respuesta), 0);
+						}
+					}
+				} else {
+					sprintf(respuesta, "8/No se pudo invitar al usuario\n");
+					send(socket_invitador, respuesta, strlen(respuesta), 0);
+				}
+			}
+
+		else if (codigo == 9) { // Código para responder invitación
+			char respuesta_invitacion[10], usuario_invitador[50], usuario_invitado[50];
+			int id_partida;
+			p = strtok(NULL, "/");
+			if (p != NULL) strcpy(respuesta_invitacion, p); // "aceptar" o "rechazar"
+			p = strtok(NULL, "/");
+			if (p != NULL) strcpy(usuario_invitador, p);
+			p = strtok(NULL, "/");
+			if (p != NULL) strcpy(usuario_invitado, p);
+			p = strtok(NULL, "/");
+			if (p != NULL) id_partida = atoi(p);
+
+			int socket_invitador = -1;
+			pthread_mutex_lock(&mutex);
+			for (int i = 0; i < miLista.num; i++) {
+				if (strcmp(miLista.conectados[i].usuario, usuario_invitador) == 0) {
+					socket_invitador = miLista.conectados[i].socket;
+					break;
+				}
+			}
+			pthread_mutex_unlock(&mutex);
+
+			int socket_invitado = -1;
+			pthread_mutex_lock(&mutex);
+			for (int i = 0; i < miLista.num; i++) {
+				if (strcmp(miLista.conectados[i].usuario, usuario_invitado) == 0) {
+					socket_invitado = miLista.conectados[i].socket;
+					break;
+				}
+			}
+			pthread_mutex_unlock(&mutex);
+
+			if (strcmp(respuesta_invitacion, "aceptar") == 0) {
+				char consulta[256];
+				sprintf(consulta, "UPDATE jugadores SET id_partida = %d WHERE username = '%s'", id_partida, usuario_invitado);
+				err = mysql_query(conn, consulta);
+				if (err == 0) {
+					sprintf(respuesta, "9/1/Has aceptado la invitacion a la partida %d/%d\n", id_partida, id_partida);
+					send(socket_invitado, respuesta, strlen(respuesta), 0);
+
+					if (socket_invitador != -1) {
+						sprintf(respuesta, "9/%s ha aceptado tu invitacion\n", usuario_invitado);
+						send(socket_invitador, respuesta, strlen(respuesta), 0);
+					}
+				} else {
+					sprintf(respuesta, "9/Error al unirte a la partida\n");
+					send(socket_invitado, respuesta, strlen(respuesta), 0);
+				}
+			} else { // rechazo
+				sprintf(respuesta, "9/0/Has rechazado la invitacion\n");
+				send(socket_invitado, respuesta, strlen(respuesta), 0);
+
+				if (socket_invitador != -1) {
+					sprintf(respuesta, "9/%s ha rechazado tu invitacion\n", usuario_invitado);
+					send(socket_invitador, respuesta, strlen(respuesta), 0);
+				}
+			}	
+		}
+		else if (codigo == 10){ //Codigo para el chat
+			char usuario[50];
+			char mensaje[256];
+
+			p = strtok(NULL, "/"); // usuario
+			if (p != NULL) strcpy(usuario, p);
+
+			p = strtok(NULL, "/"); // mensaje
+			if (p != NULL) strcpy(mensaje, p);
+
+			char mensajeChat[512];
+			sprintf(mensajeChat, "10/%s/%s", usuario, mensaje); // Código 10 es el que maneja el cliente para chat
+
+			pthread_mutex_lock(&mutex);
+			for (int i = 0; i < miLista.num; i++) {
+				if (miLista.conectados[i].socket != sock_conn) {
+					send(miLista.conectados[i].socket, mensajeChat, strlen(mensajeChat), 0);
+				}
+			}
+			pthread_mutex_unlock(&mutex);
+		}
+		else if (codigo == 11) { // Código para guardar la apuesta
+			char usuario[50];
+			int caballo_elegido;
+			float apuesta;
+
+			p = strtok(NULL, "/"); // usuario
+			if (p != NULL) strcpy(usuario, p);
+
+			p = strtok(NULL, "/"); // caballo elegido
+			if (p != NULL) caballo_elegido = atoi(p);
+
+			p = strtok(NULL, "/"); // apuesta elegido
+			if (p != NULL) apuesta = atof(p);
+
+			snprintf(consulta, sizeof(consulta), 
+					"UPDATE jugadores SET caballo_elegido = %d, apuesta = %.2f WHERE username = '%s';", 
+					caballo_elegido, apuesta, usuario);
+
+			if (mysql_query(conn, consulta)) {
+				printf("Error al actualizar apuesta: %s\n", mysql_error(conn));
 			}
 		}
-		close(sock_conn);
+		else if (codigo == 12) { // Código para jugar con varias personas a la vez
+			char usuario[50];
+			p = strtok(NULL, "/"); // usuario
+			if (p != NULL) strcpy(usuario, p);
+
+			pthread_mutex_lock(&mutex);
+
+			// 1️ Llamar la función una vez para obtener la respuesta
+			int caballo_ganador;
+   			ProcesarApuestasEnPartida(&miLista, conn, usuario, &caballo_ganador);
+
+    		char respuesta[512];
+    		
+
+			// 2️ Obtener el id_partida del jugador
+			int id_partida = -1;
+			snprintf(consulta, sizeof(consulta),
+					"SELECT id_partida FROM jugadores WHERE username = '%s';", usuario);
+			if (mysql_query(conn, consulta) == 0) {
+				MYSQL_RES *res = mysql_store_result(conn);
+				MYSQL_ROW row = mysql_fetch_row(res);
+				if (row != NULL) {
+					id_partida = atoi(row[0]);
+					miLista.conectados[i].id_partida = id_partida;
+					// Actualiza el id_partida en todos los conectados de esa partida
+					for (int k = 0; k < miLista.num; k++) {
+						if (miLista.conectados[k].estado == 1) {
+							// Para este usuario, consultamos la base de datos para obtener su id_partida
+							snprintf(consulta, sizeof(consulta), 
+									"SELECT id_partida FROM jugadores WHERE username = '%s';", miLista.conectados[k].usuario);
+							if (mysql_query(conn, consulta) == 0) {
+								MYSQL_RES *res2 = mysql_store_result(conn);
+								MYSQL_ROW row2 = mysql_fetch_row(res2);
+								if (row2 != NULL) {
+									miLista.conectados[k].id_partida = atoi(row2[0]);
+								}
+								mysql_free_result(res2);
+							}
+						}
+					}
+				}
+				mysql_free_result(res);
+			}
+
+			// 3️ Enviar la respuesta a los jugadores que estén en la misma partida
+			for (int k = 0; k < miLista.num; k++) {
+				if (miLista.conectados[k].estado == 1 && miLista.conectados[k].id_partida == id_partida) {
+					// Obtener puntos del usuario k
+					snprintf(consulta, sizeof(consulta), 
+							"SELECT puntos FROM jugadores WHERE username = '%s';", 
+							miLista.conectados[k].usuario);
+					
+					if (mysql_query(conn, consulta) == 0) {
+						MYSQL_RES *res_puntos = mysql_store_result(conn);
+						MYSQL_ROW row_puntos = mysql_fetch_row(res_puntos);
+						float puntos_usuario = 0.0;
+						if (row_puntos != NULL) {
+							puntos_usuario = atof(row_puntos[0]);
+						}
+						mysql_free_result(res_puntos);
+
+						// Armar mensaje personalizado
+						snprintf(respuesta, sizeof(respuesta), "12/%d/%.2f/%s/%.2f", caballo_ganador, puntos_usuario, miLista.conectados[k].resultado_partida, miLista.conectados[k].beneficio_partida);
+						// Enviar solo a este usuario
+						write(miLista.conectados[k].socket, respuesta, strlen(respuesta));
+						printf("Enviando a socket %d con id_partida %d: %s\n", miLista.conectados[k].socket, miLista.conectados[k].id_partida, respuesta);
+					}
+				}
+			}
+			pthread_mutex_unlock(&mutex);
+		}
+
+
+			
+	}
+	mysql_close(conn);
+	close(sock_conn);
 }
 int main(int argc, char *argv[])
 {
 	miLista.num = 0;
 	
 	int sock_conn, sock_listen;
+	int puerto = 50066; 
 	struct sockaddr_in serv_adr;
 	// INICIALITZACIONS
 	// Obrim el socket
@@ -310,8 +1170,8 @@ int main(int argc, char *argv[])
 	// asocia el socket a cualquiera de las IP de la m?quina.
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
-	// escucharemos en el port 9080
-	serv_adr.sin_port = htons(9080);
+	// escucharemos en el port 50066
+	serv_adr.sin_port = htons(puerto);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0) {
 		printf("Error en el bind\n");
 		exit(1);
