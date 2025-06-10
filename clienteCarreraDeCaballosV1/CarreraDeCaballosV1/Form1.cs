@@ -27,6 +27,9 @@ namespace CarreraDeCaballosV1
         string rutaCaballo = Path.Combine(Application.StartupPath, "imagenes", "caballo.png");
         string rutaFinish = Path.Combine(Application.StartupPath, "imagenes", "finish.png");
         int caballoGanador;
+        private bool botonconfirmarapuesta = false;
+        private bool conectado = false;
+        private bool sesioniniciada = false;
 
         public Form1()
         {
@@ -161,7 +164,7 @@ namespace CarreraDeCaballosV1
                         case 9: // Invitación correcta
                             this.Invoke((MethodInvoker)delegate
                             {
-                                if (trozos.Length >= 4)
+                                if (trozos.Length >= 3)
                                 {
                                     int aceptado = int.Parse(respuesta);
                                     if (aceptado == 1)
@@ -174,7 +177,7 @@ namespace CarreraDeCaballosV1
                                         MessageBox.Show("Has rechazado la invitacion");
                                     }
                                 }
-                                else
+                                else 
                                 {
                                     MessageBox.Show(respuesta);
                                 }
@@ -231,7 +234,7 @@ namespace CarreraDeCaballosV1
                 server.Connect(ipep);
                 this.BackColor = Color.YellowGreen; //Una vez conectado con exito el color de fondo pasa a amarillo
                 MessageBox.Show("Conectado"); //y mostramos un mensaje en pantalla informando al cliente que se ha conectado.
-
+                conectado = true;
             }
             catch (SocketException ex)
             {
@@ -249,6 +252,12 @@ namespace CarreraDeCaballosV1
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            if (!conectado)
+            {
+                MessageBox.Show("Debes de conectarte al servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(textBoxUsername.Text) || string.IsNullOrWhiteSpace(textBoxPassword.Text))
             {
                 MessageBox.Show("Por favor, rellena todos los campos.", "Campos vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -264,11 +273,18 @@ namespace CarreraDeCaballosV1
                 string mensaje2 = "6/";
                 byte[] msg2 = System.Text.Encoding.ASCII.GetBytes(mensaje2);
                 server.Send(msg2);
+                sesioniniciada = true;
             }
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
+            if (!conectado)
+            {
+                MessageBox.Show("Debes de conectarte al servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(textBoxUsername.Text) || string.IsNullOrWhiteSpace(textBoxPassword.Text) ||
             string.IsNullOrWhiteSpace(puntosBOX.Text) || string.IsNullOrWhiteSpace(textBoxEdad.Text))
             {
@@ -306,7 +322,11 @@ namespace CarreraDeCaballosV1
 
         private void btnDesconectarse_Click(object sender, EventArgs e)
         {
-
+            if (!conectado)
+            {
+                MessageBox.Show("Debes de conectarte al servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             this.BackColor = Color.White;
             MessageBox.Show("Te has desconectado del servidor.");
 
@@ -322,7 +342,17 @@ namespace CarreraDeCaballosV1
 
         private void btnConsulta_Click(object sender, EventArgs e)
         {
-           
+            if (!conectado)
+            {
+                MessageBox.Show("Debes de conectarte al servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!c_historial.Checked && !c_duracion.Checked && !c_limite.Checked)
+            {
+                MessageBox.Show("Por favor, selecciona al menos una opción.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             if (c_historial.Checked)
             {
@@ -341,17 +371,30 @@ namespace CarreraDeCaballosV1
 
 
             }
-            else
+            else if (c_limite.Checked)
             {
                 string mensaje = "5/" + id_partida1.Text;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
 
             }
+            
         }
 
         private void btnjugar_Click(object sender, EventArgs e)
         {
+            if (!conectado)
+            {
+                MessageBox.Show("Debes de conectarte al servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!botonconfirmarapuesta)
+            {
+                MessageBox.Show("Debes confirmar tu apuesta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             string mensaje = "7/" + TextBoxCaballoEligido.Text + "/" + TextBoxApuestaEligida.Text + "/" + textBoxUsername.Text;
             // Enviamos al servidor el nombre tecleado
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
@@ -395,6 +438,12 @@ namespace CarreraDeCaballosV1
 
         private void invitarBTN_Click(object sender, EventArgs e)
         {
+            if (!conectado)
+            {
+                MessageBox.Show("Debes de conectarte al servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (listBoxConectados.SelectedItem != null)
             {
                 string invitado = listBoxConectados.SelectedItem.ToString();
@@ -411,6 +460,12 @@ namespace CarreraDeCaballosV1
 
         private void btnChat_Click(object sender, EventArgs e)
         {
+            if (!conectado)
+            {
+                MessageBox.Show("Debes de conectarte al servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (!string.IsNullOrWhiteSpace(textBoxChat.Text))
             {
                 string mensaje = "10/" + textBoxUsername.Text + "/" + textBoxChat.Text;
@@ -429,6 +484,17 @@ namespace CarreraDeCaballosV1
 
         private void cerrarsesionBTN_Click(object sender, EventArgs e)
         {
+            if (!conectado)
+            {
+                MessageBox.Show("Debes de conectarte al servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (!sesioniniciada)
+            {
+                MessageBox.Show("Todavia no se ha iniciado la sesion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             string mensaje = "0/";
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
@@ -443,30 +509,36 @@ namespace CarreraDeCaballosV1
             labelidpartida.Text = "";
         }
 
-        private void dueloBTN_Click(object sender, EventArgs e)
-        {
-            string mensaje = "12/" + textBoxUsername.Text;
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-            server.Send(msg);
 
-            //byte[] msg2 = new byte[512];
-            //server.Receive(msg2);
-            //string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
-            //int codigo = Convert.ToInt32(trozos[0]);
-            //caballoGanador = int.Parse(trozos[1].Split('\0')[0]);
-
-            //// Resetear posiciones de los caballos
-            //caballo1.Left = 0;
-            //caballo2.Left = 0;
-            //caballo3.Left = 0;
-
-            //// Iniciar el timer
-            //timerCarrera.Start();
-
-        }
 
         private void confirmarapuestaBTN_Click(object sender, EventArgs e)
         {
+            if (!conectado)
+            {
+                MessageBox.Show("Debes de conectarte al servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(TextBoxCaballoEligido.Text) || string.IsNullOrWhiteSpace(TextBoxApuestaEligida.Text))
+            {
+                MessageBox.Show("Por favor, rellena todos los campos.", "Campos vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; // Detenemos la ejecución para que el usuario corrija el error
+            }
+            // Verificar que el numero de caballo sea un número
+            if (!int.TryParse(TextBoxCaballoEligido.Text, out _))
+            {
+                MessageBox.Show("El parámetro Caballo debe contener un número.", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Verificar que la apuesta sea un número
+            if (!int.TryParse(TextBoxApuestaEligida.Text, out int edad))
+            {
+                MessageBox.Show("El parámetro apuesta debe contener un número.", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            botonconfirmarapuesta = true;
             string mensaje = "11/" + textBoxUsername.Text + "/" + TextBoxCaballoEligido.Text + "/" + TextBoxApuestaEligida.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
@@ -474,5 +546,23 @@ namespace CarreraDeCaballosV1
             MessageBox.Show("La apuesta se ha guardao correctamente");
         }
 
+        private void dueloBTN_Click(object sender, EventArgs e)
+        {
+            if (!conectado)
+            {
+                MessageBox.Show("Debes de conectarte al servidor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!botonconfirmarapuesta)
+            {
+                MessageBox.Show("Debes confirmar tu apuesta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string mensaje = "12/" + textBoxUsername.Text;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+        }
     }
 }

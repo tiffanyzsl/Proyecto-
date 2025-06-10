@@ -179,7 +179,7 @@
             // c_historial
             // 
             this.c_historial.AutoSize = true;
-            this.c_historial.Location = new System.Drawing.Point(898, 123);
+            this.c_historial.Location = new System.Drawing.Point(898, 43);
             this.c_historial.Margin = new System.Windows.Forms.Padding(2);
             this.c_historial.Name = "c_historial";
             this.c_historial.Size = new System.Drawing.Size(315, 17);
@@ -191,7 +191,7 @@
             // c_duracion
             // 
             this.c_duracion.AutoSize = true;
-            this.c_duracion.Location = new System.Drawing.Point(898, 144);
+            this.c_duracion.Location = new System.Drawing.Point(898, 64);
             this.c_duracion.Margin = new System.Windows.Forms.Padding(2);
             this.c_duracion.Name = "c_duracion";
             this.c_duracion.Size = new System.Drawing.Size(298, 17);
@@ -203,7 +203,7 @@
             // c_limite
             // 
             this.c_limite.AutoSize = true;
-            this.c_limite.Location = new System.Drawing.Point(898, 165);
+            this.c_limite.Location = new System.Drawing.Point(898, 85);
             this.c_limite.Margin = new System.Windows.Forms.Padding(2);
             this.c_limite.Name = "c_limite";
             this.c_limite.Size = new System.Drawing.Size(325, 17);
@@ -214,7 +214,7 @@
             // 
             // id_jugador
             // 
-            this.id_jugador.Location = new System.Drawing.Point(1214, 118);
+            this.id_jugador.Location = new System.Drawing.Point(1214, 38);
             this.id_jugador.Margin = new System.Windows.Forms.Padding(2);
             this.id_jugador.Name = "id_jugador";
             this.id_jugador.Size = new System.Drawing.Size(79, 20);
@@ -222,7 +222,7 @@
             // 
             // id_partida
             // 
-            this.id_partida.Location = new System.Drawing.Point(1197, 141);
+            this.id_partida.Location = new System.Drawing.Point(1197, 61);
             this.id_partida.Margin = new System.Windows.Forms.Padding(2);
             this.id_partida.Name = "id_partida";
             this.id_partida.Size = new System.Drawing.Size(79, 20);
@@ -230,7 +230,7 @@
             // 
             // id_partida1
             // 
-            this.id_partida1.Location = new System.Drawing.Point(1222, 163);
+            this.id_partida1.Location = new System.Drawing.Point(1222, 83);
             this.id_partida1.Margin = new System.Windows.Forms.Padding(2);
             this.id_partida1.Name = "id_partida1";
             this.id_partida1.Size = new System.Drawing.Size(79, 20);
@@ -238,7 +238,7 @@
             // 
             // btnConsulta
             // 
-            this.btnConsulta.Location = new System.Drawing.Point(1222, 200);
+            this.btnConsulta.Location = new System.Drawing.Point(1222, 120);
             this.btnConsulta.Margin = new System.Windows.Forms.Padding(2);
             this.btnConsulta.Name = "btnConsulta";
             this.btnConsulta.Size = new System.Drawing.Size(82, 20);
